@@ -1,0 +1,12 @@
+ជំហានទី ១: បង្កើត Repository នៅលើ GitHub
+1.បើកគេហទំព័រ GitHub រួច Log in ចូលគណនី។
+
+2.ចុចលើប៊ូតុង "New" (ឬសញ្ញា + នៅផ្នែកខាងលើស្តាំ រួចជ្រើសរើស New repository)។
+
+3.បំពេញឈ្មោះគម្រោងត្រង់ Repository name (ឧទាហរណ៍៖ my-awesome-project)។
+
+4.ជ្រើសរើស Public (បើកចំហ) ឬ Private (ឯកជន) ទៅតាមតម្រូវការ។
+
+5.ចំណាំ៖ ត្រង់ផ្នែក "Initialize this repository with" មិនបាច់ធីករើសអ្វីទាំងអស់ (ទុកឱ្យទទេ)។
+
+6.ចុចប៊ូតុង "Create repository"។ បន្ទាប់មកបងនឹងឃើញផ្ទាំងមួយដែលមានបង្ហាញ Link នៃ Repository នោះ (ចម្លង/Copy Link នោះទុក)។

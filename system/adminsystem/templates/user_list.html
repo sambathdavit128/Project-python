@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Check Users</title>
+    <style>
+        body { 
+            font-family: 'Segoe UI', Arial, sans-serif; 
+            padding: 40px 20px; 
+            background-color: #f4f6f9; 
+            margin: 0;
+        }
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+        }
+        .header-section {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            border-bottom: 2px solid #f1f5f9;
+            padding-bottom: 15px;
+        }
+        h2 { 
+            margin: 0; 
+            color: #0f172a; 
+            font-size: 24px;
+        }
+        .button-group {
+            display: flex;
+            gap: 12px;
+        }
+        .btn {
+            padding: 10px 16px;
+            text-decoration: none;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 14px;
+            transition: all 0.2s ease;
+        }
+        .btn-back {
+            background-color: #3b82f6;
+            color: white;
+        }
+        .btn-back:hover {
+            background-color: #2563eb;
+        }
+        .btn-logout {
+            background-color: #ef4444;
+            color: white;
+        }
+        .btn-logout:hover {
+            background-color: #dc2626;
+        }
+        table { 
+            width: 100%; 
+            border-collapse: collapse; 
+            margin-top: 10px; 
+        }
+        th, td { 
+            padding: 14px; 
+            text-align: left; 
+            border-bottom: 1px solid #e2e8f0;
+        }
+        th { 
+            background-color: #0f172a; 
+            color: white; 
+            font-weight: 600;
+        }
+        tr:hover {
+            background-color: #f8fafc;
+        }
+        .badge {
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+        .badge-admin {
+            background-color: #fee2e2;
+            color: #ef4444;
+        }
+        .badge-customer {
+            background-color: #d1fae5;
+            color: #10b981;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header-section">
+        <h2>បញ្ជីឈ្មោះអ្នកប្រើប្រាស់នៅក្នុង Database</h2>
+        
+        <div class="button-group">
+            <a href="{% url 'index' %}" class="btn btn-back">← ទៅទំព័រដើម</a>
+            <a href="{% url 'logout' %}" class="btn btn-logout">🚪 ចាកចេញ (Logout)</a>
+        </div>
+    </div>
+
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Username</th>
+                <th>Email</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for user in users %}
+            <tr>
+                <td>{{ user.id }}</td>
+                <td style="font-weight: 600; color: #334155;">{{ user.username }}</td>
+                <td>{{ user.email }}</td>
+                <td>
+                    {% if user.is_superuser %}
+                        <span class="badge badge-admin">Admin</span>
+                    {% else %}
+                        <span class="badge badge-customer">Customer</span>
+                    {% endif %}
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="4" style="text-align: center; color: #94a3b8; padding: 20px;">មិនមានទិន្នន័យអ្នកប្រើប្រាស់ឡើយ</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+</body>
+</html>
