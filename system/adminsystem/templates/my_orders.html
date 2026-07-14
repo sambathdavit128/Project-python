@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>ប្រវត្តិកុម្ម៉ង់របស់ខ្ញុំ</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+</head>
+<body class="bg-light">
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-4">
+    <div class="container">
+        <a class="navbar-brand font-weight-bold" href="{% url 'index' %}">🐼 PandaMart</a>
+        <div class="navbar-nav ms-auto">
+            <a class="nav-link text-white" href="{% url 'index' %}">← ត្រឡប់ទៅទំព័រដើម</a>
+        </div>
+    </div>
+</nav>
+
+<div class="container">
+    <div class="card p-4 shadow-sm mx-auto" style="max-width: 800px;">
+        <h3 class="mb-4">📦 ប្រវត្តិកុម្ម៉ង់របស់ខ្ញុំ (My Order History)</h3>
+        
+        <table class="table table-hover align-middle">
+            <thead class="table-secondary">
+                <tr>
+                    <th>លេខកូដ</th>
+                    <th>កាលបរិច្ឆេទ</th>
+                    <th>តម្លៃសរុប</th>
+                    <th>ស្ថានភាព</th>
+                    <th>សកម្មភាព</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for order in orders %}
+                <tr>
+                    <td><strong>#{{ order.id }}</strong></td>
+                    <td>{{ order.created_at|date:"Y-m-d H:i" }}</td>
+                    <td class="text-danger font-weight-bold">${{ order.total_price }}</td>
+                    <td>
+                        <span class="badge 
+                            {% if order.status == 'Pending' %} bg-warning text-dark 
+                            {% elif order.status == 'Accepted' %} bg-primary 
+                            {% elif order.status == 'Completed' %} bg-success {% endif %}">
+                            {{ order.status }}
+                        </span>
+                    </td>
+                    <td>
+                        <a href="{% url 'order_detail' order.id %}" class="btn btn-sm btn-outline-info">មើលលម្អិត</a>
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="5" class="text-center text-muted py-4">អ្នកមិនទាន់ធ្លាប់មានប្រវត្តិកុម្ម៉ង់ទំនិញឡើយទេ!</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+</body>
+</html>

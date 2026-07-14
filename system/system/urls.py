@@ -16,8 +16,14 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from django.conf import settings  # បានថែមសម្រាប់ទាញយកការកំណត់ពី settings.py
+from django.conf.urls.static import static  # បានថែមសម្រាប់បង្កើតផ្លូវឯកសារ Static/Media
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('adminsystem.urls')),
 ]
+
+# បន្ថែមបន្ទាត់នេះដើម្បីឱ្យ Django អនុញ្ញាតឱ្យទាញរូបភាពពី folder media មកបង្ហាញលើ Browser
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

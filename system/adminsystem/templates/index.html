@@ -14,14 +14,14 @@
             font-family: "Plus Jakarta Sans", "Kantumruy Pro", sans-serif;
             background-color: #fbfbfb;
         }
-        /* Foodpanda Pink Theme Brand */
+        /* Foodpanda Pink Theme Brand Classes */
         .fp-pink { background-color: #d70f64; }
         .fp-text-pink { color: #d70f64; }
         .fp-border-pink { border-color: #d70f64; }
         .fp-bg-light { background-color: #fee9f2; }
     </style>
 </head>
-<body class="text-gray-800 antialiased min-h-screen pb-24">
+<body class="text-gray-800 antialiased min-h-screen flex flex-col">
 
     <header class="bg-white border-b border-gray-100 sticky top-0 z-40 shadow-xs">
         <div class="max-w-[1400px] mx-auto px-4 flex items-center justify-between h-18 gap-4">
@@ -62,6 +62,11 @@
 
                 {% if user.is_authenticated %}
                     <span class="text-gray-600 hidden lg:inline">សួស្តី, <b>{{ user.username }}</b></span>
+                    
+                    <a href="{% url 'my_orders' %}" class="px-4 py-2 rounded-xl border border-gray-200 text-gray-700 hover:bg-gray-50 hover:fp-text-pink transition flex items-center gap-1">
+                        <span>📦</span> <span>ប្រវត្តិកុម្ម៉ង់</span>
+                    </a>
+
                     <a href="/logout/" class="px-4 py-2 rounded-xl border border-gray-200 text-gray-700 hover:bg-gray-50 transition">Logout</a>
                 {% else %}
                     <a href="/login/" class="px-3 py-2 text-gray-700 hover:fp-text-pink transition">Log in</a>
@@ -71,7 +76,7 @@
         </div>
     </header>
 
-    <div class="max-w-[1400px] mx-auto px-4 py-6 flex gap-6 items-start">
+    <div class="max-w-[1400px] mx-auto px-4 py-6 flex gap-6 items-start flex-1 w-full">
         
         {% if user.is_authenticated %}
         <aside class="w-64 shrink-0 bg-white rounded-2xl p-5 border border-gray-100 sticky top-24 hidden lg:block">
@@ -139,7 +144,7 @@
                         <span class="w-6 h-6 bg-white rounded-full flex items-center justify-center shadow-xs text-xs">❤️</span>
                         <h3 class="font-bold text-sm text-gray-900">រក្សាទុកហាងដែលអ្នកពេញចិត្ត</h3>
                     </div>
-                    <p class="text-xs text-gray-600">ចុចលើរូបបេះដូង ដើម្បីកុំឱ្យពិបាកស្វែងរកហាងដែលអ្នកចូលចិត្តទៅថ្ងៃក្រោយ។</p>
+                    <p class="text-xs text-gray-600">ចុចលើរូបបេះដូង ដើម្បីកុំឱ្យពិបាកស្វែងរកហាងដែលអ្នកចូលចិត្តទៅថ្ងៃក្រោយ。</p>
                 </div>
             </section>
 
@@ -221,289 +226,97 @@
                     <p class="text-xs text-gray-400">ស្វែងរក និងទិញទំនិញផ្ទាល់ពីហាងដែលល្បីល្បាញបំផុត</p>
                 </div>
 
-                <div class="grid grid-cols-2 sm:grid-cols-3 xl:grid-cols-5 gap-4">
-                    
-                    <div class="bg-white rounded-2xl border border-gray-100 shadow-2xs p-4 hover:shadow-md transition duration-200 flex flex-col items-center text-center group relative">
-                        <button class="absolute top-3 right-3 z-10 text-xs text-gray-400 hover:text-red-500 cursor-pointer">❤️</button>
-                        <div class="w-16 h-16 bg-amber-100 text-3xl flex items-center justify-center rounded-2xl mb-3 group-hover:scale-105 transition">🍏</div>
-                        <h4 class="font-bold text-gray-800 text-xs truncate w-full group-hover:fp-text-pink transition">ផ្សារខ្មែរធម្មជាតិ</h4>
-                        <p class="text-[10px] text-gray-400 mt-1">បន្លែផ្លែឈើស្រស់ៗ</p>
-                        <span class="mt-2 text-[9px] font-bold bg-emerald-50 text-emerald-700 px-2 py-0.5 rounded-full">⭐ 4.9 (150+)</span>
-                    </div>
-
-                    <div class="bg-white rounded-2xl border border-gray-100 shadow-2xs p-4 hover:shadow-md transition duration-200 flex flex-col items-center text-center group relative">
-                        <button class="absolute top-3 right-3 z-10 text-xs text-gray-400 hover:text-red-500 cursor-pointer">❤️</button>
-                        <div class="w-16 h-16 bg-blue-100 text-3xl flex items-center justify-center rounded-2xl mb-3 group-hover:scale-105 transition">📱</div>
-                        <h4 class="font-bold text-gray-800 text-xs truncate w-full group-hover:fp-text-pink transition">Kテック Electronics</h4>
-                        <p class="text-[10px] text-gray-400 mt-1">គ្រឿងអេឡិចត្រូនិចគ្រប់ប្រភេទ</p>
-                        <span class="mt-2 text-[9px] font-bold bg-emerald-50 text-emerald-700 px-2 py-0.5 rounded-full">⭐ 4.8 (90+)</span>
-                    </div>
-
-                    <div class="bg-white rounded-2xl border border-gray-100 shadow-2xs p-4 hover:shadow-md transition duration-200 flex flex-col items-center text-center group relative">
-                        <button class="absolute top-3 right-3 z-10 text-xs text-gray-400 hover:text-red-500 cursor-pointer">❤️</button>
-                        <div class="w-16 h-16 bg-pink-100 text-3xl flex items-center justify-center rounded-2xl mb-3 group-hover:scale-105 transition">💄</div>
-                        <h4 class="font-bold text-gray-800 text-xs truncate w-full group-hover:fp-text-pink transition">Beauty Aura Shop</h4>
-                        <p class="text-[10px] text-gray-400 mt-1">គ្រឿងសម្អាងកូរ៉េពិតៗ</p>
-                        <span class="mt-2 text-[9px] font-bold bg-emerald-50 text-emerald-700 px-2 py-0.5 rounded-full">⭐ 4.7 (230+)</span>
-                    </div>
-
-                    <div class="bg-white rounded-2xl border border-gray-100 shadow-2xs p-4 hover:shadow-md transition duration-200 flex flex-col items-center text-center group relative">
-                        <button class="absolute top-3 right-3 z-10 text-xs text-gray-400 hover:text-red-500 cursor-pointer">❤️</button>
-                        <div class="w-16 h-16 bg-red-100 text-3xl flex items-center justify-center rounded-2xl mb-3 group-hover:scale-105 transition">👟</div>
-                        <h4 class="font-bold text-gray-800 text-xs truncate w-full group-hover:fp-text-pink transition">Cambodia Sport Zone</h4>
-                        <p class="text-[10px] text-gray-400 mt-1">ស្បែកជើង និងសំលៀកបំពាក់កីឡា</p>
-                        <span class="mt-2 text-[9px] font-bold bg-emerald-50 text-emerald-700 px-2 py-0.5 rounded-full">⭐ 4.9 (410+)</span>
-                    </div>
-
-                    <div class="bg-white rounded-2xl border border-gray-100 shadow-2xs p-4 hover:shadow-md transition duration-200 flex flex-col items-center text-center group relative">
-                        <button class="absolute top-3 right-3 z-10 text-xs text-gray-400 hover:text-red-500 cursor-pointer">❤️</button>
-                        <div class="w-16 h-16 bg-purple-100 text-3xl flex items-center justify-center rounded-2xl mb-3 group-hover:scale-105 transition">👕</div>
-                        <h4 class="font-bold text-gray-800 text-xs truncate w-full group-hover:fp-text-pink transition">Trendy Casuals</h4>
-                        <p class="text-[10px] text-gray-400 mt-1">ខោអាវយុវវ័យទាន់សម័យ</p>
-                        <span class="mt-2 text-[9px] font-bold bg-emerald-50 text-emerald-700 px-2 py-0.5 rounded-full">⭐ 4.6 (120+)</span>
-                    </div>
-
-                    <div class="bg-white rounded-2xl border border-gray-100 shadow-2xs p-4 hover:shadow-md transition duration-200 flex flex-col items-center text-center group relative">
-                        <button class="absolute top-3 right-3 z-10 text-xs text-gray-400 hover:text-red-500 cursor-pointer">❤️</button>
-                        <div class="w-16 h-16 bg-yellow-100 text-3xl flex items-center justify-center rounded-2xl mb-3 group-hover:scale-105 transition">⚡</div>
-                        <h4 class="font-bold text-gray-800 text-xs truncate w-full group-hover:fp-text-pink transition">PandaMart Express</h4>
-                        <p class="text-[10px] text-gray-400 mt-1">ទំនិញប្រើប្រាស់រហ័សទាន់ចិត្ត</p>
-                        <span class="mt-2 text-[9px] font-bold bg-emerald-50 text-emerald-700 px-2 py-0.5 rounded-full">⭐ 5.0 (1k+)</span>
-                    </div>
-
-                    <div class="bg-white rounded-2xl border border-gray-100 shadow-2xs p-4 hover:shadow-md transition duration-200 flex flex-col items-center text-center group relative">
-                        <button class="absolute top-3 right-3 z-10 text-xs text-gray-400 hover:text-red-500 cursor-pointer">❤️</button>
-                        <div class="w-16 h-16 bg-orange-100 text-3xl flex items-center justify-center rounded-2xl mb-3 group-hover:scale-105 transition">☕</div>
-                        <h4 class="font-bold text-gray-800 text-xs truncate w-full group-hover:fp-text-pink transition">ភ្នំពេញ កាហ្វេ ដេប៉ូ</h4>
-                        <p class="text-[10px] text-gray-400 mt-1">គ្រាប់កាហ្វេ និងសម្ភារៈឆុង</p>
-                        <span class="mt-2 text-[9px] font-bold bg-emerald-50 text-emerald-700 px-2 py-0.5 rounded-full">⭐ 4.8 (80+)</span>
-                    </div>
-
-                    <div class="bg-white rounded-2xl border border-gray-100 shadow-2xs p-4 hover:shadow-md transition duration-200 flex flex-col items-center text-center group relative">
-                        <button class="absolute top-3 right-3 z-10 text-xs text-gray-400 hover:text-red-500 cursor-pointer">❤️</button>
-                        <div class="w-16 h-16 bg-teal-100 text-3xl flex items-center justify-center rounded-2xl mb-3 group-hover:scale-105 transition">💊</div>
-                        <h4 class="font-bold text-gray-800 text-xs truncate w-full group-hover:fp-text-pink transition">Pharmacy Plus</h4>
-                        <p class="text-[10px] text-gray-400 mt-1">ឱសថស្ថាន និងថែទាំសុខភាព</p>
-                        <span class="mt-2 text-[9px] font-bold bg-emerald-50 text-emerald-700 px-2 py-0.5 rounded-full">⭐ 4.9 (340+)</span>
-                    </div>
-
-                    <div class="bg-white rounded-2xl border border-gray-100 shadow-2xs p-4 hover:shadow-md transition duration-200 flex flex-col items-center text-center group relative">
-                        <button class="absolute top-3 right-3 z-10 text-xs text-gray-400 hover:text-red-500 cursor-pointer">❤️</button>
-                        <div class="w-16 h-16 bg-rose-100 text-3xl flex items-center justify-center rounded-2xl mb-3 group-hover:scale-105 transition">🧸</div>
-                        <h4 class="font-bold text-gray-800 text-xs truncate w-full group-hover:fp-text-pink transition">Baby Care & Toys</h4>
-                        <p class="text-[10px] text-gray-400 mt-1">សម្ភារៈ និងរបស់លេងក្មេង</p>
-                        <span class="mt-2 text-[9px] font-bold bg-emerald-50 text-emerald-700 px-2 py-0.5 rounded-full">⭐ 4.7 (190+)</span>
-                    </div>
-
-                    <div class="bg-white rounded-2xl border border-gray-100 shadow-2xs p-4 hover:shadow-md transition duration-200 flex flex-col items-center text-center group relative">
-                        <button class="absolute top-3 right-3 z-10 text-xs text-gray-400 hover:text-red-500 cursor-pointer">❤️</button>
-                        <div class="w-16 h-16 bg-gray-100 text-3xl flex items-center justify-center rounded-2xl mb-3 group-hover:scale-105 transition">🕶️</div>
-                        <h4 class="font-bold text-gray-800 text-xs truncate w-full group-hover:fp-text-pink transition">Optic & Style</h4>
-                        <p class="text-[10px] text-gray-400 mt-1">វ៉ែនតាការពារថ្ងៃ និងម៉ូដថ្មីៗ</p>
-                        <span class="mt-2 text-[9px] font-bold bg-emerald-50 text-emerald-700 px-2 py-0.5 rounded-full">⭐ 4.5 (70+)</span>
-                    </div>
-
-                    <div class="bg-white rounded-2xl border border-gray-100 shadow-2xs p-4 hover:shadow-md transition duration-200 flex flex-col items-center text-center group relative">
-                        <button class="absolute top-3 right-3 z-10 text-xs text-gray-400 hover:text-red-500 cursor-pointer">❤️</button>
-                        <div class="w-16 h-16 bg-sky-100 text-3xl flex items-center justify-center rounded-2xl mb-3 group-hover:scale-105 transition">📚</div>
-                        <h4 class="font-bold text-gray-800 text-xs truncate w-full group-hover:fp-text-pink transition">បណ្ណាគារ ចំណេះដឹង</h4>
-                        <p class="text-[10px] text-gray-400 mt-1">សៀវភៅ និងសម្ភារៈសិក្សា</p>
-                        <span class="mt-2 text-[9px] font-bold bg-emerald-50 text-emerald-700 px-2 py-0.5 rounded-full">⭐ 4.8 (110+)</span>
-                    </div>
-
-                    <div class="bg-white rounded-2xl border border-gray-100 shadow-2xs p-4 hover:shadow-md transition duration-200 flex flex-col items-center text-center group relative">
-                        <button class="absolute top-3 right-3 z-10 text-xs text-gray-400 hover:text-red-500 cursor-pointer">❤️</button>
-                        <div class="w-16 h-16 bg-green-100 text-3xl flex items-center justify-center rounded-2xl mb-3 group-hover:scale-105 transition">🏡</div>
-                        <h4 class="font-bold text-gray-800 text-xs truncate w-full group-hover:fp-text-pink transition">Home Living Decor</h4>
-                        <p class="text-[10px] text-gray-400 mt-1">សម្ភារៈតុបតែងផ្ទះបាយ និងបន្ទប់</p>
-                        <span class="mt-2 text-[9px] font-bold bg-emerald-50 text-emerald-700 px-2 py-0.5 rounded-full">⭐ 4.6 (150+)</span>
-                    </div>
-
-                    <div class="bg-white rounded-2xl border border-gray-100 shadow-2xs p-4 hover:shadow-md transition duration-200 flex flex-col items-center text-center group relative">
-                        <button class="absolute top-3 right-3 z-10 text-xs text-gray-400 hover:text-red-500 cursor-pointer">❤️</button>
-                        <div class="w-16 h-16 bg-amber-50 text-3xl flex items-center justify-center rounded-2xl mb-3 group-hover:scale-105 transition">🍕</div>
-                        <h4 class="font-bold text-gray-800 text-xs truncate w-full group-hover:fp-text-pink transition">Italian Pizza Hub</h4>
-                        <p class="text-[10px] text-gray-400 mt-1">ភីហ្សាក្តៅៗឈ្ងុយឆ្ងាញ់</p>
-                        <span class="mt-2 text-[9px] font-bold bg-emerald-50 text-emerald-700 px-2 py-0.5 rounded-full">⭐ 4.9 (500+)</span>
-                    </div>
-
-                    <div class="bg-white rounded-2xl border border-gray-100 shadow-2xs p-4 hover:shadow-md transition duration-200 flex flex-col items-center text-center group relative">
-                        <button class="absolute top-3 right-3 z-10 text-xs text-gray-400 hover:text-red-500 cursor-pointer">❤️</button>
-                        <div class="w-16 h-16 bg-red-50 text-3xl flex items-center justify-center rounded-2xl mb-3 group-hover:scale-105 transition">🥩</div>
-                        <h4 class="font-bold text-gray-800 text-xs truncate w-full group-hover:fp-text-pink transition">Premium Meat Market</h4>
-                        <p class="text-[10px] text-gray-400 mt-1">សាច់គោ និងសាច់ចៀមបង្កកលំដាប់ខ្ពស់</p>
-                        <span class="mt-2 text-[9px] font-bold bg-emerald-50 text-emerald-700 px-2 py-0.5 rounded-full">⭐ 4.8 (90+)</span>
-                    </div>
-
-                    <div class="bg-white rounded-2xl border border-gray-100 shadow-2xs p-4 hover:shadow-md transition duration-200 flex flex-col items-center text-center group relative">
-                        <button class="absolute top-3 right-3 z-10 text-xs text-gray-400 hover:text-red-500 cursor-pointer">❤️</button>
-                        <div class="w-16 h-16 bg-yellow-50 text-3xl flex items-center justify-center rounded-2xl mb-3 group-hover:scale-105 transition">🐱</div>
-                        <h4 class="font-bold text-gray-800 text-xs truncate w-full group-hover:fp-text-pink transition">Pet Kingdom & Food</h4>
-                        <p class="text-[10px] text-gray-400 mt-1">ចំណី និងសម្ភារៈសត្វចិញ្ចឹម</p>
-                        <span class="mt-2 text-[9px] font-bold bg-emerald-50 text-emerald-700 px-2 py-0.5 rounded-full">⭐ 4.7 (140+)</span>
-                    </div>
-
-                    <div class="bg-white rounded-2xl border border-gray-100 shadow-2xs p-4 hover:shadow-md transition duration-200 flex flex-col items-center text-center group relative">
-                        <button class="absolute top-3 right-3 z-10 text-xs text-gray-400 hover:text-red-500 cursor-pointer">❤️</button>
-                        <div class="w-16 h-16 bg-indigo-100 text-3xl flex items-center justify-center rounded-2xl mb-3 group-hover:scale-105 transition">⌚</div>
-                        <h4 class="font-bold text-gray-800 text-xs truncate w-full group-hover:fp-text-pink transition">Luxury Watch KH</h4>
-                        <p class="text-[10px] text-gray-400 mt-1">នាឡិកាដៃប្រេនល្បីៗ</p>
-                        <span class="mt-2 text-[9px] font-bold bg-emerald-50 text-emerald-700 px-2 py-0.5 rounded-full">⭐ 4.9 (210+)</span>
-                    </div>
-
-                    <div class="bg-white rounded-2xl border border-gray-100 shadow-2xs p-4 hover:shadow-md transition duration-200 flex flex-col items-center text-center group relative">
-                        <button class="absolute top-3 right-3 z-10 text-xs text-gray-400 hover:text-red-500 cursor-pointer">❤️</button>
-                        <div class="w-16 h-16 bg-zinc-100 text-3xl flex items-center justify-center rounded-2xl mb-3 group-hover:scale-105 transition">🛠️</div>
-                        <h4 class="font-bold text-gray-800 text-xs truncate w-full group-hover:fp-text-pink transition">Cambodia Hardware Store</h4>
-                        <p class="text-[10px] text-gray-400 mt-1">សម្ភារៈជួសជុល និងជាង</p>
-                        <span class="mt-2 text-[9px] font-bold bg-emerald-50 text-emerald-700 px-2 py-0.5 rounded-full">⭐ 4.6 (85+)</span>
-                    </div>
-
-                    <div class="bg-white rounded-2xl border border-gray-100 shadow-2xs p-4 hover:shadow-md transition duration-200 flex flex-col items-center text-center group relative">
-                        <button class="absolute top-3 right-3 z-10 text-xs text-gray-400 hover:text-red-500 cursor-pointer">❤️</button>
-                        <div class="w-16 h-16 bg-emerald-100 text-3xl flex items-center justify-center rounded-2xl mb-3 group-hover:scale-105 transition">🍵</div>
-                        <h4 class="font-bold text-gray-800 text-xs truncate w-full group-hover:fp-text-pink transition">Green Tea House</h4>
-                        <p class="text-[10px] text-gray-400 mt-1">តែបៃតងសុខភាពជប៉ុន</p>
-                        <span class="mt-2 text-[9px] font-bold bg-emerald-50 text-emerald-700 px-2 py-0.5 rounded-full">⭐ 4.8 (120+)</span>
-                    </div>
-
-                    <div class="bg-white rounded-2xl border border-gray-100 shadow-2xs p-4 hover:shadow-md transition duration-200 flex flex-col items-center text-center group relative">
-                        <button class="absolute top-3 right-3 z-10 text-xs text-gray-400 hover:text-red-500 cursor-pointer">❤️</button>
-                        <div class="w-16 h-16 bg-amber-100 text-3xl flex items-center justify-center rounded-2xl mb-3 group-hover:scale-105 transition">👜</div>
-                        <h4 class="font-bold text-gray-800 text-xs truncate w-full group-hover:fp-text-pink transition">Bags & Beyond</h4>
-                        <p class="text-[10px] text-gray-400 mt-1">កាបូបស្ពាយនារីស្អាតៗ</p>
-                        <span class="mt-2 text-[9px] font-bold bg-emerald-50 text-emerald-700 px-2 py-0.5 rounded-full">⭐ 4.7 (160+)</span>
-                    </div>
-
-                    <div class="bg-white rounded-2xl border border-gray-100 shadow-2xs p-4 hover:shadow-md transition duration-200 flex flex-col items-center text-center group relative">
-                        <button class="absolute top-3 right-3 z-10 text-xs text-gray-400 hover:text-red-500 cursor-pointer">❤️</button>
-                        <div class="w-16 h-16 bg-fuchsia-100 text-3xl flex items-center justify-center rounded-2xl mb-3 group-hover:scale-105 transition">🌸</div>
-                        <h4 class="font-bold text-gray-800 text-xs truncate w-full group-hover:fp-text-pink transition">ហាងផ្កា ស្រស់ស្អាត</h4>
-                        <p class="text-[10px] text-gray-400 mt-1">ផ្កាស្រស់គ្រប់កម្មវិធី</p>
-                        <span class="mt-2 text-[9px] font-bold bg-emerald-50 text-emerald-700 px-2 py-0.5 rounded-full">⭐ 4.9 (95+)</span>
-                    </div>
-
-                    <div class="bg-white rounded-2xl border border-gray-100 shadow-2xs p-4 hover:shadow-md transition duration-200 flex flex-col items-center text-center group relative">
-                        <button class="absolute top-3 right-3 z-10 text-xs text-gray-400 hover:text-red-500 cursor-pointer">❤️</button>
-                        <div class="w-16 h-16 bg-blue-50 text-3xl flex items-center justify-center rounded-2xl mb-3 group-hover:scale-105 transition">🌊</div>
-                        <h4 class="font-bold text-gray-800 text-xs truncate w-full group-hover:fp-text-pink transition">Aquarium & Fish Center</h4>
-                        <p class="text-[10px] text-gray-400 mt-1">ត្រីលម្អ និងទូរកញ្ចក់</p>
-                        <span class="mt-2 text-[9px] font-bold bg-emerald-50 text-emerald-700 px-2 py-0.5 rounded-full">⭐ 4.6 (60+)</span>
-                    </div>
-
-                    <div class="bg-white rounded-2xl border border-gray-100 shadow-2xs p-4 hover:shadow-md transition duration-200 flex flex-col items-center text-center group relative">
-                        <button class="absolute top-3 right-3 z-10 text-xs text-gray-400 hover:text-red-500 cursor-pointer">❤️</button>
-                        <div class="w-16 h-16 bg-orange-50 text-3xl flex items-center justify-center rounded-2xl mb-3 group-hover:scale-105 transition">🍩</div>
-                        <h4 class="font-bold text-gray-800 text-xs truncate w-full group-hover:fp-text-pink transition">Sweet Donuts Bakery</h4>
-                        <p class="text-[10px] text-gray-400 mt-1">នំដូណាត់ និងនំខេកផ្អែមៗ</p>
-                        <span class="mt-2 text-[9px] font-bold bg-emerald-50 text-emerald-700 px-2 py-0.5 rounded-full">⭐ 4.8 (310+)</span>
-                    </div>
-
-                    <div class="bg-white rounded-2xl border border-gray-100 shadow-2xs p-4 hover:shadow-md transition duration-200 flex flex-col items-center text-center group relative">
-                        <button class="absolute top-3 right-3 z-10 text-xs text-gray-400 hover:text-red-500 cursor-pointer">❤️</button>
-                        <div class="w-16 h-16 bg-lime-100 text-3xl flex items-center justify-center rounded-2xl mb-3 group-hover:scale-105 transition">🚲</div>
-                        <h4 class="font-bold text-gray-800 text-xs truncate w-full group-hover:fp-text-pink transition">Khmer Bicycle Shop</h4>
-                        <p class="text-[10px] text-gray-400 mt-1">កង់ជិះហាត់ប្រាណ និងកង់ក្មេង</p>
-                        <span class="mt-2 text-[9px] font-bold bg-emerald-50 text-emerald-700 px-2 py-0.5 rounded-full">⭐ 4.7 (75+)</span>
-                    </div>
-
-                    <div class="bg-white rounded-2xl border border-gray-100 shadow-2xs p-4 hover:shadow-md transition duration-200 flex flex-col items-center text-center group relative">
-                        <button class="absolute top-3 right-3 z-10 text-xs text-gray-400 hover:text-red-500 cursor-pointer">❤️</button>
-                        <div class="w-16 h-16 bg-red-100 text-3xl flex items-center justify-center rounded-2xl mb-3 group-hover:scale-105 transition">🎸</div>
-                        <h4 class="font-bold text-gray-800 text-xs truncate w-full group-hover:fp-text-pink transition">Music & Sound Store</h4>
-                        <p class="text-[10px] text-gray-400 mt-1">ហ្គីតា និងឧបករណ៍តន្ត្រី</p>
-                        <span class="mt-2 text-[9px] font-bold bg-emerald-50 text-emerald-700 px-2 py-0.5 rounded-full">⭐ 4.9 (130+)</span>
-                    </div>
-
-                    <div class="bg-white rounded-2xl border border-gray-100 shadow-2xs p-4 hover:shadow-md transition duration-200 flex flex-col items-center text-center group relative">
-                        <button class="absolute top-3 right-3 z-10 text-xs text-gray-400 hover:text-red-500 cursor-pointer">❤️</button>
-                        <div class="w-16 h-16 bg-violet-100 text-3xl flex items-center justify-center rounded-2xl mb-3 group-hover:scale-105 transition">🍇</div>
-                        <h4 class="font-bold text-gray-800 text-xs truncate w-full group-hover:fp-text-pink transition">ផ្លែឈើនាំចូល ប្រេនៗ</h4>
-                        <p class="text-[10px] text-gray-400 mt-1">ផ្លែឈើស្រស់ៗនាំចូលពីបរទេស</p>
-                        <span class="mt-2 text-[9px] font-bold bg-emerald-50 text-emerald-700 px-2 py-0.5 rounded-full">⭐ 4.8 (280+)</span>
-                    </div>
-
-                    <div class="bg-white rounded-2xl border border-gray-100 shadow-2xs p-4 hover:shadow-md transition duration-200 flex flex-col items-center text-center group relative">
-                        <button class="absolute top-3 right-3 z-10 text-xs text-gray-400 hover:text-red-500 cursor-pointer">❤️</button>
-                        <div class="w-16 h-16 bg-yellow-100 text-3xl flex items-center justify-center rounded-2xl mb-3 group-hover:scale-105 transition">🍯</div>
-                        <h4 class="font-bold text-gray-800 text-xs truncate w-full group-hover:fp-text-pink transition">ទឹកឃ្មុំព្រៃ ធម្មជាតិ</h4>
-                        <p class="text-[10px] text-gray-400 mt-1">ទឹកឃ្មុំសុទ្ធរក្សាសុខភាព</p>
-                        <span class="mt-2 text-[9px] font-bold bg-emerald-50 text-emerald-700 px-2 py-0.5 rounded-full">⭐ 4.9 (180+)</span>
-                    </div>
-
-                    <div class="bg-white rounded-2xl border border-gray-100 shadow-2xs p-4 hover:shadow-md transition duration-200 flex flex-col items-center text-center group relative">
-                        <button class="absolute top-3 right-3 z-10 text-xs text-gray-400 hover:text-red-500 cursor-pointer">❤️</button>
-                        <div class="w-16 h-16 bg-emerald-50 text-3xl flex items-center justify-center rounded-2xl mb-3 group-hover:scale-105 transition">🌱</div>
-                        <h4 class="font-bold text-gray-800 text-xs truncate w-full group-hover:fp-text-pink transition">Organic Green Shop</h4>
-                        <p class="text-[10px] text-gray-400 mt-1">ផលិតផលសរីរាង្គការពារបរិស្ថាន</p>
-                        <span class="mt-2 text-[9px] font-bold bg-emerald-50 text-emerald-700 px-2 py-0.5 rounded-full">⭐ 4.7 (95+)</span>
-                    </div>
-
-                    <div class="bg-white rounded-2xl border border-gray-100 shadow-2xs p-4 hover:shadow-md transition duration-200 flex flex-col items-center text-center group relative">
-                        <button class="absolute top-3 right-3 z-10 text-xs text-gray-400 hover:text-red-500 cursor-pointer">❤️</button>
-                        <div class="w-16 h-16 bg-cyan-100 text-3xl flex items-center justify-center rounded-2xl mb-3 group-hover:scale-105 transition">💧</div>
-                        <h4 class="font-bold text-gray-800 text-xs truncate w-full group-hover:fp-text-pink transition">Pure Water Station</h4>
-                        <p class="text-[10px] text-gray-400 mt-1">ទឹកពិសាបរិសុទ្ធដប និងធុង</p>
-                        <span class="mt-2 text-[9px] font-bold bg-emerald-50 text-emerald-700 px-2 py-0.5 rounded-full">⭐ 4.8 (400+)</span>
-                    </div>
-
-                    <div class="bg-white rounded-2xl border border-gray-100 shadow-2xs p-4 hover:shadow-md transition duration-200 flex flex-col items-center text-center group relative">
-                        <button class="absolute top-3 right-3 z-10 text-xs text-gray-400 hover:text-red-500 cursor-pointer">❤️</button>
-                        <div class="w-16 h-16 bg-amber-100 text-3xl flex items-center justify-center rounded-2xl mb-3 group-hover:scale-105 transition">🧀</div>
-                        <h4 class="font-bold text-gray-800 text-xs truncate w-full group-hover:fp-text-pink transition">The Cheese Corner</h4>
-                        <p class="text-[10px] text-gray-400 mt-1">ឈីសនាំចូល និងគ្រឿងផ្សំអឺរ៉ុប</p>
-                        <span class="mt-2 text-[9px] font-bold bg-emerald-50 text-emerald-700 px-2 py-0.5 rounded-full">⭐ 4.6 (65+)</span>
-                    </div>
-
-                    <div class="bg-white rounded-2xl border border-gray-100 shadow-2xs p-4 hover:shadow-md transition duration-200 flex flex-col items-center text-center group relative">
-                        <button class="absolute top-3 right-3 z-10 text-xs text-gray-400 hover:text-red-500 cursor-pointer">❤️</button>
-                        <div class="w-16 h-16 bg-rose-50 text-3xl flex items-center justify-center rounded-2xl mb-3 group-hover:scale-105 transition">🍷</div>
-                        <h4 class="font-bold text-gray-800 text-xs truncate w-full group-hover:fp-text-pink transition">Wine & Spirits KH</h4>
-                        <p class="text-[10px] text-gray-400 mt-1">ស្រាក្រហម និងភេសជ្ជៈលំដាប់ថ្នាក់</p>
-                        <span class="mt-2 text-[9px] font-bold bg-emerald-50 text-emerald-700 px-2 py-0.5 rounded-full">⭐ 4.9 (110+)</span>
-                    </div>
-
+                <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-6">
+                    {% for shop in shops %}
+                        <a href="{% url 'shop_detail' shop.id %}" class="shop-card bg-white rounded-2xl border border-gray-100 shadow-2xs overflow-hidden hover:shadow-md transition duration-200 flex flex-col group relative block">
+                            
+                            <button onclick="event.preventDefault();" class="absolute top-3 right-3 z-10 text-sm bg-white/80 p-1.5 rounded-full shadow-xs text-gray-400 hover:text-red-500 cursor-pointer backdrop-blur-xs">❤️</button>
+                            
+                            <div class="w-full h-[200px] overflow-hidden bg-gray-100 shrink-0">
+                                {% if shop.image %}
+                                    <img src="{{ shop.image.url }}" alt="{{ shop.name }}" class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
+                                {% else %}
+                                    <img src="https://images.unsplash.com/photo-1542838132-92c53300491e?w=500" alt="Default Image" class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
+                                {% endif %}
+                            </div>
+                            
+                            <div class="p-4 flex flex-col flex-1">
+                                <h3 class="font-bold text-gray-800 text-sm truncate w-full group-hover:fp-text-pink transition">
+                                    {{ shop.name }}
+                                </h3>
+                                <p class="text-xs text-gray-400 mt-1">
+                                    {{ shop.category.name }}
+                                </p>
+                                <div class="mt-auto pt-3 flex items-center justify-between">
+                                    <span class="text-[9px] font-bold bg-emerald-50 text-emerald-700 px-2 py-0.5 rounded-full">⭐ 4.8 (New)</span>
+                                </div>
+                            </div>
+                        </a>
+                    {% empty %}
+                        <div class="col-span-full py-12 text-center text-sm text-gray-500 bg-white rounded-2xl border border-dashed border-gray-200">
+                            មិនទាន់មានទិន្នន័យហាងនៅក្នុងប្រព័ន្ធឡើយទេ!
+                        </div>
+                    {% endfor %}
                 </div>
             </section>
         </main>
     </div>
 
-    <footer class="bg-gray-900 text-gray-400 py-10 border-t border-gray-800 text-xs">
-        <div class="max-w-[1400px] mx-auto px-4 grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
-            <div class="space-y-2">
-                <span class="text-base font-bold text-white tracking-tight">PandaMart</span>
-                <p class="leading-relaxed text-gray-400">ផ្សារទំនើបអនឡាញឈានមុខគេប្រកបដោយទំនុកចិត្តខ្ពស់នៅកម្ពុជា។</p>
+    <footer class="bg-white border-t border-gray-100 mt-auto">
+        <div class="max-w-[1400px] mx-auto px-4 py-8">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8 text-xs">
+                
+                <div class="space-y-3">
+                    <div class="flex items-center gap-2">
+                        <div class="w-8 h-8 fp-pink text-white flex items-center justify-center font-bold text-lg rounded-lg">🐼</div>
+                        <span class="text-lg font-extrabold fp-text-pink tracking-tight">PandaMart</span>
+                    </div>
+                    <p class="text-gray-500 leading-relaxed font-medium">
+                        សេវាកម្មដឹកជញ្ជូនទំនិញ និងអាហារអនឡាញឈានមុខគេនៅក្នុងប្រទេសកម្ពុជា រហ័សទាន់ចិត្ត និងទំនុកចិត្តខ្ពស់។
+                    </p>
+                </div>
+
+                <div class="space-y-3">
+                    <h4 class="font-bold text-gray-900 text-sm uppercase tracking-wider">តំណភ្ជាប់រហ័ស</h4>
+                    <ul class="space-y-2 text-gray-500 font-medium">
+                        <li><a href="#" class="hover:fp-text-pink transition">អំពីយើង (About Us)</a></li>
+                        <li><a href="#" class="hover:fp-text-pink transition">មជ្ឈមណ្ឌលជំនួយ (Help Center)</a></li>
+                        <li><a href="#" class="hover:fp-text-pink transition">ឱកាសការងារ (Careers)</a></li>
+                        <li><a href="#" class="hover:fp-text-pink transition">ប្រូម៉ូសិនប្រចាំថ្ងៃ (Deals)</a></li>
+                    </ul>
+                </div>
+
+                <div class="space-y-3">
+                    <h4 class="font-bold text-gray-900 text-sm uppercase tracking-wider">គោលការណ៍</h4>
+                    <ul class="space-y-2 text-gray-500 font-medium">
+                        <li><a href="#" class="hover:fp-text-pink transition">លក្ខខណ្ឌប្រើប្រាស់</a></li>
+                        <li><a href="#" class="hover:fp-text-pink transition">គោលការណ៍ឯកជនភាព</a></li>
+                        <li><a href="#" class="hover:fp-text-pink transition">គោលការណ៍ដកប្រាក់វិញ</a></li>
+                        <li><a href="#" class="hover:fp-text-pink transition">សេវាកម្មអតិថិជន</a></li>
+                    </ul>
+                </div>
+
+                <div class="space-y-3">
+                    <h4 class="font-bold text-gray-900 text-sm uppercase tracking-wider">ទំនាក់ទំនង</h4>
+                    <ul class="space-y-2 text-gray-500 font-medium">
+                        <li class="flex items-center gap-2">📍 <span>ភ្នំពេញ, ប្រទេសកម្ពុជា</span></li>
+                        <li class="flex items-center gap-2">📞 <span>+855 (0) 23 999 888</span></li>
+                        <li class="flex items-center gap-2">✉️ <span>support@pandamart.com.kh</span></li>
+                    </ul>
+                </div>
+
             </div>
-            <div>
-                <h4 class="text-white font-semibold mb-2 text-sm">Contact Us</h4>
-                <p class="leading-relaxed">Email: support@pandamart.shop | Tel: +855 12 345 678</p>
-            </div>
-            <div class="text-left md:text-right">
-                <p>&copy; 2026 PandaMart Store. All Rights Reserved.</p>
+
+            <div class="border-t border-gray-100 mt-8 pt-4 flex flex-col sm:flex-row items-center justify-between gap-4 text-[11px] text-gray-400 font-medium">
+                <p>&copy; 2026 PandaMart Cambodia. All rights reserved.</p>
+                <div class="flex gap-4">
+                    <a href="#" class="hover:text-gray-600">Facebook</a>
+                    <a href="#" class="hover:text-gray-600">Telegram</a>
+                    <a href="#" class="hover:text-gray-600">Instagram</a>
+                </div>
             </div>
         </div>
     </footer>
-
-    {% if not user.is_authenticated %}
-    <div class="fixed bottom-0 left-0 right-0 bg-black text-white py-3 px-4 z-50 shadow-lg flex items-center justify-between transition-all duration-300">
-        <div class="max-w-[1400px] mx-auto w-full flex items-center justify-between gap-4">
-            <div class="flex items-center gap-3">
-                <span class="text-2xl hidden sm:inline">🐼</span>
-                <p class="text-xs md:text-sm font-medium">
-                    ចុះឈ្មោះឥឡូវនេះ ដើម្បីទទួលបានគូប៉ុងថែមជូន <span class="text-[#d70f64] font-bold">ទឹកប្រាក់ $5 ហ្វ្រី!</span> សម្រាប់ការទិញដំបូង។
-                </p>
-            </div>
-            <div class="flex items-center gap-4 shrink-0">
-                <a href="/register/" class="bg-white text-black text-xs font-bold px-4 py-1.5 rounded-lg hover:bg-gray-100 transition shadow-xs">
-                    Sign up
-                </a>
-                <button onclick="this.parentElement.parentElement.parentElement.remove()" class="text-white opacity-70 hover:opacity-100 text-sm font-bold cursor-pointer">
-                    ✕
-                </button>
-            </div>
-        </div>
-    </div>
-    {% endif %}
 
 </body>
 </html>
