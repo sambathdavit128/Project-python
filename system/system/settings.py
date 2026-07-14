@@ -56,13 +56,18 @@ ROOT_URLCONF = 'system.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        # បន្ថែម BASE_DIR / 'templates' ដើម្បីឱ្យស្គាល់ Folder templates ខាងក្រៅ
+        'DIRS': [BASE_DIR / 'templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
+                'django.template.context_processors.debug',
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                
+                # បន្ថែមមុខងារ active_orders_count ពី views.py ទៅកាន់ Context Processors ត្រង់នេះ
+                'adminsystem.views.active_orders_count',
             ],
         },
     },

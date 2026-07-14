@@ -55,10 +55,15 @@
             </div>
 
             <div class="flex items-center gap-4 shrink-0 text-xs font-bold">
-                <button class="relative p-2 text-gray-700 hover:fp-text-pink transition cursor-pointer">
+                
+                <a href="{% url 'my_orders' %}" class="relative p-2 text-gray-700 hover:fp-text-pink transition cursor-pointer">
                     <span class="text-xl">🛍️</span>
-                    <span class="absolute top-0 right-0 w-4 h-4 bg-[#d70f64] text-white text-[9px] rounded-full flex items-center justify-center">3</span>
-                </button>
+                    {% if active_orders_count > 0 %}
+                        <span class="absolute top-0 right-0 w-4 h-4 bg-[#d70f64] text-white text-[9px] rounded-full flex items-center justify-center">
+                            {{ active_orders_count }}
+                        </span>
+                    {% endif %}
+                </a>
 
                 {% if user.is_authenticated %}
                     <span class="text-gray-600 hidden lg:inline">សួស្តី, <b>{{ user.username }}</b></span>

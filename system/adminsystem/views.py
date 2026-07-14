@@ -8,6 +8,22 @@ from django.contrib.auth.decorators import login_required
 from .models import Category, Shop, Product, Order, OrderItem 
 
 # ==========================================================
+# 0. Context Processor សម្រាប់រាប់ចំនួន Order មិនទាន់បញ្ចប់ (Active Orders Count)
+# ==========================================================
+def active_orders_count(request):
+    """
+    អនុគមន៍នេះប្រើសម្រាប់រាប់ចំនួនកុម្ម៉ង់ដែលកំពុងដំណើរការ (Pending ឬ Accepted)
+    ដើម្បីបង្ហាញលេខនៅលើរូបកន្ត្រក Navbar គ្រប់ទំព័រស្វ័យប្រវត្ត។
+    """
+    if request.user.is_authenticated:
+        count = Order.objects.filter(
+            user=request.user, 
+            status__in=['Pending', 'Accepted']
+        ).count()
+        return {'active_orders_count': count}
+    return {'active_orders_count': 0}
+
+# ==========================================================
 # 1. Logic បង្ហាញទំព័រដើមទិញទំនិញ (Index / Shops & Products)
 # ==========================================================
 def index(request):
@@ -193,10 +209,13 @@ def admin_complete_order(request, order_id):
     messages.success(request, f"ការកម្ម៉ង់ #{order.id} ត្រូវបានបញ្ចប់ជាស្ថាពរ!")
     return redirect('admin_orders')
 
+# ==========================================================
+# 12. Logic សម្រាប់ Customer ឆែកមើលរាល់ប្រវត្តិកុម្ម៉ង់ទាំងអស់ (My Orders)
+# ==========================================================
 @login_required(login_url='login')
 def my_orders_view(request):
-    # ទាញយក Order ទាំងអស់ដែលជារបស់ភ្ញៀវម្នាក់នេះ (តម្រៀបពីថ្មីទៅចាស់)
-    user_orders = Order.objects.filter(user=request.user).order_by('-created_at')
+    # ទាញយកតែការកុម្ម៉ង់របស់អតិថិជនដែលកំពុង Log in និងតម្រៀបពីថ្មីទៅចាស់ (-id)
+    orders = Order.objects.filter(user=request.user).order_by('-id')
     return render(request, 'my_orders.html', {
-        'orders': user_orders
+        'orders': orders
     })
