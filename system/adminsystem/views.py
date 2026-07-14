@@ -3,6 +3,8 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from django.utils import timezone  # បន្ថែមសម្រាប់គណនាម៉ោង Cancel Order
+from datetime import timedelta     # បន្ថែមសម្រាប់កំណត់រយៈពេល ៣ នាទី
 
 # ទាញយក class models ទាំងអស់ចេញពី models.py មកប្រើជាមួយគ្នា
 from .models import Category, Shop, Product, Order, OrderItem 
@@ -130,15 +132,26 @@ def place_order(request):
         product_id = request.POST.get('product_id')
         quantity = int(request.POST.get('quantity', 1))
         
+        # ចាប់យកទិន្នន័យលេខទូរស័ព្ទ និងអាសយដ្ឋានពី Form
+        phone = request.POST.get('phone')
+        address = request.POST.get('address')
+        
+        # ឆែកលក្ខខណ្ឌបើអតិថិជនមិនបានបំពេញព័ត៌មានទាំងពីរនេះ
+        if not phone or not address:
+            messages.error(request, "សូមបំពេញលេខទំនាក់ទំនង និងអាសយដ្ឋានបច្ចុប្បន្នរបស់អ្នក!")
+            return redirect('shop_detail', shop_id=Product.objects.get(id=product_id).shop.id)
+
         # ទាញយកទិន្នន័យផលិតផល
         product = get_object_or_404(Product, id=product_id)
         total_price = product.price * quantity
         
-        # ១. បង្កើត Order មេ
+        # ១. បង្កើត Order មេ (ដោយរក្សាទុកទាំង phone និង address)
         order = Order.objects.create(
             user=request.user,
             total_price=total_price,
-            status='Pending'
+            status='Pending',
+            phone=phone,
+            address=address
         )
         
         # ២. បង្កើត មុខទំនិញកូន
@@ -219,3 +232,47 @@ def my_orders_view(request):
     return render(request, 'my_orders.html', {
         'orders': orders
     })
+
+# ==========================================================
+# 13. Logic សម្រាប់ Customer បោះបង់ការបញ្ជាទិញក្នុងរយះពេល ៣នាទី (Cancel Order)
+# ==========================================================
+@login_required(login_url='login')
+def cancel_order(request, order_id):
+    """
+    មុខងារអនុញ្ញាតឱ្យអតិថិជនលុប ឬបោះបង់ការបញ្ជាទិញវិញ 
+    ក្នុងករណីមិនទាន់ហួសរយៈពេល ៣ នាទី គិតចាប់ពីម៉ោងកុម្ម៉ង់។
+    """
+    # ទាញយក Order របស់អតិថិជនដែលកំពុង Login
+    order = get_object_or_404(Order, id=order_id, user=request.user)
+    
+    # កំណត់រយៈពេលផុតកំណត់ (៣ នាទី បូកបន្ថែមលើម៉ោងបង្កើត Order ក្នុង database)
+    expiration_time = order.created_at + timedelta(minutes=3)
+    
+    # ពិនិត្យមើលលក្ខខណ្ឌម៉ោងបច្ចុប្បន្ន ធៀបនឹងម៉ោងផុតកំណត់
+    if timezone.now() > expiration_time:
+        messages.error(request, "ការកុម្ម៉ង់នេះមិនអាចបោះបង់បានទេ ព្រោះហួសរយៈពេល ៣ នាទីហើយ!")
+        return redirect('my_orders')
+    
+    # លុប Order នេះចេញពីប្រព័ន្ធ
+    order.delete()
+    messages.success(request, "ការបញ្ជាទិញរបស់អ្នកត្រូវបានបោះបង់ដោយជោគជ័យ!")
+    
+    return redirect('my_orders')
+
+# ==========================================================
+# 14. Logic សម្រាប់ Admin បដិសេធ ឬបោះបង់ការកុម្ម៉ង់ (Admin Cancel Order)
+# ==========================================================
+@login_required(login_url='login')
+def admin_cancel_order(request, order_id):
+    """
+    មុខងារអនុញ្ញាតឱ្យ Admin បដិសេធ ឬបោះបង់ (Cancel) Order របស់ភ្ញៀវចោលវិញ
+    ដោយប្តូរ status ទៅជា 'Cancelled'។
+    """
+    if not request.user.is_superuser:
+        return redirect('index')
+        
+    order = get_object_or_404(Order, id=order_id)
+    order.status = 'Cancelled' # ផ្លាស់ប្តូរស្ថានភាពទៅជា Cancelled
+    order.save()
+    messages.success(request, f"ការកម្ម៉ង់ #{order.id} ត្រូវបានបោះបង់ (Cancelled) ដោយជោគជ័យ!")
+    return redirect('admin_orders')

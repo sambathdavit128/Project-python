@@ -2,59 +2,115 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>រាល់ការកម្ម៉ង់របស់អតិថិជន</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Kantumruy+Pro:wght=400;600;700&family=Plus+Jakarta+Sans:wght=400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: "Plus Jakarta Sans", "Kantumruy Pro", sans-serif; }
+    </style>
 </head>
 <body class="bg-gray-50 p-8">
-    <div class="max-w-6xl mx-auto bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
-        <h3 class="text-xl font-bold text-gray-800 mb-6 flex items-center gap-2">
-            📦 រាល់ការកុម្ម៉ង់របស់អតិថិជន (Customer Orders)
-        </h3>
+    <div class="max-w-7xl mx-auto bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
         
-        <table class="w-full text-left border-collapse">
-            <thead>
-                <tr class="bg-gray-100 text-gray-700 text-sm font-bold">
-                    <th class="p-3 border-b border-gray-200">លេខកូដ Order</th>
-                    <th class="p-3 border-b border-gray-200">អតិថិជន</th>
-                    <th class="p-3 border-b border-gray-200">ថ្ងៃខែឆ្នាំ</th>
-                    <th class="p-3 border-b border-gray-200">តម្លៃសរុប</th>
-                    <th class="p-3 border-b border-gray-200">ស្ថានភាព</th>
-                    <th class="p-3 border-b border-gray-200">សកម្មភាព (Actions)</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for order in orders %}
-                <tr class="hover:bg-gray-50 text-gray-600 text-sm">
-                    <td class="p-3 border-b border-gray-200 font-bold">#{{ order.id }}</td>
-                    <td class="p-3 border-b border-gray-200">{{ order.user.username }}</td>
-                    <td class="p-3 border-b border-gray-200">{{ order.created_at|date:"Y-m-d H:i" }}</td>
-                    <td class="p-3 border-b border-gray-200 text-red-500 font-bold">${{ order.total_price }}</td>
-                    <td class="p-3 border-b border-gray-200">
-                        <span class="px-2.5 py-1 text-xs font-bold rounded-md 
-                            {% if order.status == 'Pending' %} bg-amber-100 text-amber-700 
-                            {% elif order.status == 'Accepted' %} bg-blue-100 text-blue-700
-                            {% elif order.status == 'Completed' %} bg-emerald-100 text-emerald-700 
-                            {% else %} bg-red-100 text-red-700 {% endif %}">
-                            {{ order.status }}
-                        </span>
-                    </td>
-                    <td class="p-3 border-b border-gray-200">
-                        {% if order.status == 'Pending' %}
-                            <a href="{% url 'admin_accept_order' order.id %}" class="bg-blue-600 text-white px-3 py-1 text-xs font-bold rounded-lg hover:bg-blue-700">Accept Order</a>
-                        {% elif order.status == 'Accepted' %}
-                            <a href="{% url 'admin_complete_order' order.id %}" class="bg-emerald-600 text-white px-3 py-1 text-xs font-bold rounded-lg hover:bg-emerald-700">Confirm & Complete</a>
-                        {% else %}
-                            <span class="text-xs text-gray-400">Done ✓</span>
-                        {% endif %}
-                    </td>
-                </tr>
-                {% empty %}
-                <tr>
-                    <td colspan="6" class="p-8 text-center text-gray-400">មិនទាន់មានអតិថិជនកម្ម៉ង់ឡើយទេ!</td>
-                </tr>
+        <div class="flex items-center justify-between mb-6">
+            <h3 class="text-xl font-bold text-gray-800 flex items-center gap-2">
+                📦 រាល់ការកុម្ម៉ង់របស់អតិថិជន (Customer Orders)
+            </h3>
+            <a href="/" class="text-xs font-bold text-gray-500 hover:text-gray-900">&larr; ត្រឡប់ទៅទំព័រដើម</a>
+        </div>
+
+        {% if messages %}
+            <div class="mb-4 space-y-2">
+                {% for message in messages %}
+                    <div class="p-4 text-sm rounded-xl {% if message.tags == 'success' %} bg-emerald-50 text-emerald-700 border border-emerald-100 {% else %} bg-red-50 text-red-700 border border-red-100 {% endif %}">
+                        {{ message }}
+                    </div>
                 {% endfor %}
-            </tbody>
-        </table>
+            </div>
+        {% endif %}
+        
+        <div class="overflow-x-auto">
+            <table class="w-full text-left border-collapse min-w-[900px]">
+                <thead>
+                    <tr class="bg-gray-100 text-gray-700 text-sm font-bold">
+                        <th class="p-3 border-b border-gray-200">លេខកូដ Order</th>
+                        <th class="p-3 border-b border-gray-200">អតិថិជន</th>
+                        <th class="p-3 border-b border-gray-200">លេខទូរស័ព្ទ</th>
+                        <th class="p-3 border-b border-gray-200">អាសយដ្ឋានដឹកជញ្ជូន</th>
+                        <th class="p-3 border-b border-gray-200">ថ្ងៃខែឆ្នាំ</th>
+                        <th class="p-3 border-b border-gray-200">តម្លៃសរុប</th>
+                        <th class="p-3 border-b border-gray-200">ស្ថានភាព</th>
+                        <th class="p-3 border-b border-gray-200 text-center">សកម្មភាព (Actions)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for order in orders %}
+                    <tr class="hover:bg-gray-50 text-gray-600 text-sm">
+                        <td class="p-3 border-b border-gray-200 font-bold">#{{ order.id }}</td>
+                        
+                        <td class="p-3 border-b border-gray-200">{{ order.user.username }}</td>
+                        
+                        <td class="p-3 border-b border-gray-200 font-semibold text-gray-900">
+                            {{ order.phone|default:"-" }}
+                        </td>
+                        
+                        <td class="p-3 border-b border-gray-200 max-w-[200px] truncate" title="{{ order.address }}">
+                            {{ order.address|default:"-" }}
+                        </td>
+                        
+                        <td class="p-3 border-b border-gray-200">{{ order.created_at|date:"Y-m-d H:i" }}</td>
+                        
+                        <td class="p-3 border-b border-gray-200 text-red-500 font-bold">${{ order.total_price }}</td>
+                        
+                        <td class="p-3 border-b border-gray-200">
+                            <span class="px-2.5 py-1 text-xs font-bold rounded-md 
+                                {% if order.status == 'Pending' %} bg-amber-100 text-amber-700 
+                                {% elif order.status == 'Accepted' %} bg-blue-100 text-blue-700
+                                {% elif order.status == 'Completed' %} bg-emerald-100 text-emerald-700 
+                                {% else %} bg-red-100 text-red-700 {% endif %}">
+                                {{ order.status }}
+                            </span>
+                        </td>
+                        
+                        <td class="p-3 border-b border-gray-200 text-center">
+                            <div class="flex items-center justify-center gap-2">
+                                {% if order.status == 'Pending' %}
+                                    <a href="{% url 'admin_accept_order' order.id %}" 
+                                       class="bg-blue-600 text-white px-3 py-1.5 text-xs font-bold rounded-lg hover:bg-blue-700 transition duration-150">
+                                        Accept
+                                    </a>
+                                    <a href="{% url 'admin_cancel_order' order.id %}" 
+                                       class="bg-white text-red-600 border border-red-200 px-3 py-1.5 text-xs font-bold rounded-lg hover:bg-red-50 hover:text-red-700 transition duration-150"
+                                       onclick="return confirm('តើអ្នកពិតជាចង់បដិសេធ/បោះបង់ Order នេះមែនទេ?');">
+                                        Cancel
+                                    </a>
+                                {% elif order.status == 'Accepted' %}
+                                    <a href="{% url 'admin_complete_order' order.id %}" 
+                                       class="bg-emerald-600 text-white px-3 py-1.5 text-xs font-bold rounded-lg hover:bg-emerald-700 transition duration-150">
+                                        Complete
+                                    </a>
+                                    <a href="{% url 'admin_cancel_order' order.id %}" 
+                                       class="bg-white text-red-600 border border-red-200 px-3 py-1.5 text-xs font-bold rounded-lg hover:bg-red-50 hover:text-red-700 transition duration-150"
+                                       onclick="return confirm('តើអ្នកពិតជាចង់បោះបង់ Order នេះមែនទេ?');">
+                                        Cancel
+                                    </a>
+                                {% elif order.status == 'Cancelled' %}
+                                    <span class="text-xs text-red-500 font-semibold">Cancelled ❌</span>
+                                {% else %}
+                                    <span class="text-xs text-emerald-600 font-semibold">Done ✓</span>
+                                {% endif %}
+                            </div>
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="8" class="p-8 text-center text-gray-400">មិនទាន់មានអតិថិជនកម្ម៉ង់ឡើយទេ!</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
     </div>
 </body>
 </html>

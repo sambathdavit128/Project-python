@@ -7,10 +7,11 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
     
     <script>
-        # ដំណើរការការ Reload ទំព័ររៀងរាល់ 5 វិនាទីម្តង (5000 មីលីវិនាទី) ដើម្បីធ្វើបច្ចុប្បន្នភាពស្ថានភាពទាន់ចិត្ត
+        {% if order.status == 'Pending' %}
         setInterval(function() {
             window.location.reload();
         }, 5000); 
+        {% endif %}
     </script>
 </head>
 <body class="bg-light">
@@ -33,11 +34,14 @@
         
         <p><strong>លេខកូដកុម្ម៉ង់:</strong> #{{ order.id }}</p>
         <p><strong>ស្ថានភាព:</strong> 
-            <span class="badge {% if order.status == 'Pending' %} bg-warning text-dark {% elif order.status == 'Accepted' %} bg-primary {% elif order.status == 'Completed' %} bg-success {% endif %}">
+            <span class="badge {% if order.status == 'Pending' %} bg-warning text-dark {% elif order.status == 'Accepted' %} bg-primary {% elif order.status == 'Completed' %} bg-success {% elif order.status == 'Cancelled' %} bg-danger {% endif %}">
                 {{ order.status }}
             </span>
         </p>
         <p><strong>កាលបរិច្ឆេទ:</strong> {{ order.created_at|date:"Y-m-d H:i" }}</p>
+        
+        <p><strong>លេខទំនាក់ទំនង:</strong> {{ order.phone|default:"មិនទាន់បំពេញ" }}</p>
+        <p><strong>អាសយដ្ឋានដឹកជញ្ជូន:</strong> {{ order.address|default:"មិនទាន់បំពេញ" }}</p>
         <hr>
         
         <h5>បញ្ជីមុខទំនិញ៖</h5>
@@ -50,14 +54,75 @@
             {% endfor %}
         </ul>
         
-        <div class="d-flex justify-content-between align-items-center">
+        <div class="d-flex justify-content-between align-items-center mb-4">
             <h4>តម្លៃសរុបរួម៖</h4>
             <h4 class="text-danger">${{ order.total_price }}</h4>
         </div>
+
+        {% if order.status == 'Pending' %}
+        <div class="text-center mb-3">
+            <a href="{% url 'cancel_order' order.id %}" 
+               id="cancel-btn" 
+               class="btn btn-danger w-100 py-2.5 font-weight-bold"
+               onclick="return confirm('តើអ្នកពិតជាចង់បោះបង់ការបញ្ជាទិញនេះមែនទេ?');">
+                ❌ បោះបង់ការបញ្ជាទិញ (<span id="timer">03:00</span>)
+            </a>
+            
+            <p id="timeout-msg" class="text-muted small mt-2 d-none">
+                * មិនអាចបោះបង់ការកុម្ម៉ង់បានទេ (ហួសកំណត់ ៣ នាទី)
+            </p>
+        </div>
+        {% endif %}
         
-        <a href="{% url 'my_orders' %}" class="btn btn-secondary mt-4 w-100">ត្រឡប់ទៅប្រវត្តិកុម្ម៉ង់</a>
+        <a href="{% url 'my_orders' %}" class="btn btn-secondary w-100">ត្រឡប់ទៅប្រវត្តិកុម្ម៉ង់</a>
     </div>
 </div>
+
+{% if order.status == 'Pending' %}
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        // បម្លែងម៉ោងបង្កើត Order ពី Django ទៅជា Standard ISO Format សម្រាប់ JS ស្គាល់
+        const orderTimeStr = "{{ order.created_at|date:'Y-m-d\TH:i:s' }}";
+        const orderTime = new Date(orderTimeStr).getTime();
+        
+        // កំណត់រយៈពេល ៣ នាទី (គិតជា Milliseconds = 3 * 60 * 1000)
+        const limitDuration = 3 * 60 * 1000; 
+        const endTime = orderTime + limitDuration;
+
+        const timerDisplay = document.getElementById("timer");
+        const cancelBtn = document.getElementById("cancel-btn");
+        const timeoutMsg = document.getElementById("timeout-msg");
+
+        const countdownInterval = setInterval(function() {
+            const now = new Date().getTime();
+            const timeLeft = endTime - now;
+
+            if (timeLeft <= 0) {
+                // ករណីអស់ពេល ៣ នាទី
+                clearInterval(countdownInterval);
+                if (cancelBtn) {
+                    cancelBtn.style.display = "none"; // លាក់ប៊ូតុង Cancel
+                }
+                if (timeoutMsg) {
+                    timeoutMsg.classList.remove("d-none"); // បង្ហាញសារហួសកំណត់
+                }
+            } else {
+                // គណនានាទី និង វិនាទីដែលនៅសល់
+                const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
+
+                // បន្ថែមលេខ 0 ពីមុខបើទាបជាង 10 (ឧទាហរណ៍៖ 02:05)
+                const displayMinutes = minutes < 10 ? "0" + minutes : minutes;
+                const displaySeconds = seconds < 10 ? "0" + seconds : seconds;
+
+                if (timerDisplay) {
+                    timerDisplay.textContent = displayMinutes + ":" + displaySeconds;
+                }
+            }
+        }, 1000); // ដំណើរការរៀងរាល់ ១ វិនាទីម្តង
+    });
+</script>
+{% endif %}
 
 </body>
 </html>

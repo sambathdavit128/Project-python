@@ -7,7 +7,7 @@
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Kantumruy+Pro:wght@300;400;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Kantumruy+Pro:wght=300;400;600;700&family=Plus+Jakarta+Sans:wght=400;500;600;700;800&display=swap" rel="stylesheet">
     
     <style>
         body {
@@ -233,19 +233,19 @@
 
                 <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-6">
                     {% for shop in shops %}
-                        <a href="{% url 'shop_detail' shop.id %}" class="shop-card bg-white rounded-2xl border border-gray-100 shadow-2xs overflow-hidden hover:shadow-md transition duration-200 flex flex-col group relative block">
+                        <a href="{% url 'shop_detail' shop.id %}" class="shop-card bg-white rounded-2xl border border-gray-100 shadow-2xs overflow-hidden hover:shadow-md transition duration-200 flex flex-col group relative block p-4">
                             
-                            <button onclick="event.preventDefault();" class="absolute top-3 right-3 z-10 text-sm bg-white/80 p-1.5 rounded-full shadow-xs text-gray-400 hover:text-red-500 cursor-pointer backdrop-blur-xs">❤️</button>
+                            <button onclick="event.preventDefault();" class="absolute top-6 right-6 z-10 text-sm bg-white/80 p-1.5 rounded-full shadow-xs text-gray-400 hover:text-red-500 cursor-pointer backdrop-blur-xs">❤️</button>
                             
-                            <div class="w-full h-[200px] overflow-hidden bg-gray-100 shrink-0">
+                            <div class="w-full h-[160px] rounded-xl bg-white border border-gray-50 overflow-hidden flex items-center justify-center p-3 mb-3">
                                 {% if shop.image %}
-                                    <img src="{{ shop.image.url }}" alt="{{ shop.name }}" class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
+                                    <img src="{{ shop.image.url }}" alt="{{ shop.name }}" class="max-w-full max-h-full object-contain transition duration-300 group-hover:scale-105">
                                 {% else %}
-                                    <img src="https://images.unsplash.com/photo-1542838132-92c53300491e?w=500" alt="Default Image" class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
+                                    <img src="https://images.unsplash.com/photo-1542838132-92c53300491e?w=500" alt="Default Image" class="max-w-full max-h-full object-contain transition duration-300 group-hover:scale-105">
                                 {% endif %}
                             </div>
                             
-                            <div class="p-4 flex flex-col flex-1">
+                            <div class="flex flex-col flex-1">
                                 <h3 class="font-bold text-gray-800 text-sm truncate w-full group-hover:fp-text-pink transition">
                                     {{ shop.name }}
                                 </h3>

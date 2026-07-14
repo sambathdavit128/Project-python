@@ -22,4 +22,6 @@ urlpatterns = [
     path('admin-dashboard/orders/<int:order_id>/complete/', views.admin_complete_order, name='admin_complete_order'),
     path('admin_order', views.admin_orders_view, name='admin_orders_shortcut'),
     path('my-orders/', views.my_orders_view, name='my_orders'),
+    path('order/<int:order_id>/cancel/', views.cancel_order, name='cancel_order'),
+    path('admin-dashboard/orders/<int:order_id>/cancel/', views.admin_cancel_order, name='admin_cancel_order'),
 ]
