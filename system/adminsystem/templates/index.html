@@ -41,8 +41,8 @@
                     </a>
                     
                     {% if user.is_authenticated %}
-                        <a href="#" class="hover:text-gray-800 h-full flex items-center gap-2 px-1 transition border-b-2 border-transparent">
-                            សម្លៀកបំពាក់
+                       <a href="{% url 'about_us' %}" class="hover:text-gray-800 h-full flex items-center gap-2 px-1 transition border-b-2 border-transparent">
+                            About Us
                         </a>
                     {% endif %}
                 </nav>
