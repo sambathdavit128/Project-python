@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PandaMart - Online Shopping Cambodia</title>
+    <title>Shops & Products - Online Shopping Cambodia</title>
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -28,15 +28,16 @@
             
             <div class="flex items-center gap-8 h-full">
                 <div class="flex items-center gap-2 shrink-0">
-                    <div class="w-9 h-9 fp-pink text-white flex items-center justify-center font-bold text-xl rounded-xl shadow-xs">🐼</div>
-                    <span class="text-xl font-extrabold fp-text-pink tracking-tight hidden sm:inline">PandaMart</span>
+                    <div class="w-9 h-9 fp-pink text-white flex items-center justify-center font-bold text-xl rounded-xl shadow-xs">🏪</div>
+                    <span class="text-xl font-bold text-[#d70f64] tracking-tight">Shops & Products</span>
                 </div>
 
                 <nav class="flex items-center gap-6 h-full text-sm font-bold text-gray-500 hidden md:flex">
-                    <a href="#" class="text-gray-900 border-b-4 border-[#d70f64] h-full flex items-center gap-2 px-1">
+                    <a href="?" class="{% if not discount_only %}text-gray-900 border-b-4 border-[#d70f64]{% else %}hover:text-gray-800 border-b-2 border-transparent{% endif %} h-full flex items-center gap-2 px-1 transition">
                         🛒 <span>ទិញទំនិញ (Shop)</span>
                     </a>
-                    <a href="#" class="hover:text-gray-800 h-full flex items-center gap-2 px-1 transition border-b-2 border-transparent">
+                    
+                    <a href="?discount_only=true" class="{% if discount_only == 'true' %}text-gray-900 border-b-4 border-[#d70f64]{% else %}hover:text-gray-800 border-b-2 border-transparent{% endif %} h-full flex items-center gap-2 px-1 transition">
                         ⚡ <span>ប្រូម៉ូសិន (Deals)</span>
                     </a>
                     
@@ -94,7 +95,7 @@
                     <span>Free Delivery 🚚</span>
                 </label>
                 <label class="flex items-center gap-3 text-sm text-gray-700 cursor-pointer mt-2">
-                    <input type="checkbox" class="w-4 h-4 rounded border-gray-300 text-[#d70f64] focus:ring-[#d70f64]">
+                    <input type="checkbox" {% if discount_only == 'true' %}checked{% endif %} onclick="window.location.href=this.checked ? '?discount_only=true' : '?'" class="w-4 h-4 rounded border-gray-300 text-[#d70f64] focus:ring-[#d70f64]">
                     <span>On Sale (% Off)</span>
                 </label>
             </div>
@@ -132,138 +133,241 @@
                         <span class="bg-emerald-50 px-2 py-0.5 rounded-md flex items-center gap-1">✓ ហាងផ្លូវការ 100%</span>
                         <span class="bg-emerald-50 px-2 py-0.5 rounded-md flex items-center gap-1">✓ ដឹកជញ្ជូនរហ័សរហួន</span>
                     </div>
-                    <div class="flex items-center gap-2 pt-3">
-                        <button class="fp-pink text-white font-bold px-4 py-2 rounded-xl text-xs shadow-xs hover:bg-[#b00c52] transition cursor-pointer">
-                            🛍️ ស្វែងរកហាងទំនិញ (Explore Shops)
-                        </button>
-                    </div>
                 </div>
                 <div class="hidden md:block shrink-0 bg-white/40 p-4 rounded-full border border-white">
                     <span class="text-4xl">🎁</span>
                 </div>
             </section>
 
-            <section class="bg-rose-50 rounded-2xl p-5 border border-rose-100 flex items-center justify-between gap-4">
-                <div class="space-y-1.5">
-                    <div class="flex items-center gap-2">
-                        <span class="w-6 h-6 bg-white rounded-full flex items-center justify-center shadow-xs text-xs">❤️</span>
-                        <h3 class="font-bold text-sm text-gray-900">រក្សាទុកហាងដែលអ្នកពេញចិត្ត</h3>
-                    </div>
-                    <p class="text-xs text-gray-600">ចុចលើរូបបេះដូង ដើម្បីកុំឱ្យពិបាកស្វែងរកហាងដែលអ្នកចូលចិត្តទៅថ្ងៃក្រោយ。</p>
-                </div>
-            </section>
-
-            <section class="space-y-3 relative">
-                <div class="flex items-center justify-between">
-                    <h3 class="text-lg font-bold text-gray-900">ម៉ាកទំនិញពេញនិយម (Popular Brands)</h3>
-                    <button class="w-7 h-7 bg-white border border-gray-200 rounded-full flex items-center justify-center text-xs shadow-xs font-bold hover:bg-gray-50 cursor-pointer">&rarr;</button>
-                </div>
-                
-                <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
-                    <div class="bg-white p-3 border border-gray-100 rounded-xl flex items-center gap-3 shadow-2xs hover:shadow-xs transition cursor-pointer">
-                        <div class="w-11 h-11 bg-black text-white rounded-xl flex items-center justify-center font-bold text-sm shrink-0 shadow-2xs">Apple</div>
-                        <div class="min-w-0">
-                            <h4 class="font-bold text-xs text-gray-800 truncate">Apple Store</h4>
-                            <p class="text-[10px] text-emerald-600 mt-0.5">Official Warranty</p>
-                        </div>
-                    </div>
-                    <div class="bg-white p-3 border border-gray-100 rounded-xl flex items-center gap-3 shadow-2xs hover:shadow-xs transition cursor-pointer">
-                        <div class="w-11 h-11 bg-blue-600 text-white rounded-xl flex items-center justify-center font-bold text-sm shrink-0 shadow-2xs">SAMSUNG</div>
-                        <div class="min-w-0">
-                            <h4 class="font-bold text-xs text-gray-800 truncate">Samsung Shop</h4>
-                            <p class="text-[10px] text-gray-400 mt-0.5">Top Rated</p>
-                        </div>
-                    </div>
-                    <div class="bg-white p-3 border border-gray-100 rounded-xl flex items-center gap-3 shadow-2xs hover:shadow-xs transition cursor-pointer">
-                        <div class="w-11 h-11 bg-red-600 text-white rounded-xl flex items-center justify-center font-bold text-lg shrink-0 shadow-2xs">N</div>
-                        <div class="min-w-0">
-                            <h4 class="font-bold text-xs text-gray-800 truncate">Nike Cambodia</h4>
-                            <p class="text-[10px] text-gray-400 mt-0.5">New Collection</p>
-                        </div>
-                    </div>
-                    <div class="bg-white p-3 border border-gray-100 rounded-xl flex items-center gap-3 shadow-2xs hover:shadow-xs transition cursor-pointer">
-                        <div class="w-11 h-11 bg-amber-500 text-white rounded-xl flex items-center justify-center font-bold text-lg shrink-0 shadow-2xs">Z</div>
-                        <div class="min-w-0">
-                            <h4 class="font-bold text-xs text-gray-800 truncate">Zara Fashion</h4>
-                            <p class="text-[10px] text-rose-500 mt-0.5">Sale 30% Off</p>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <section class="space-y-3">
-                <h3 class="text-lg font-bold text-gray-900">មហាសន្សំប្រចាំថ្ងៃ (Your daily deals)</h3>
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                    
-                    <div class="fp-bg-light rounded-xl p-4 flex justify-between items-center border border-pink-100 shadow-2xs relative overflow-hidden group hover:shadow-xs transition">
-                        <div class="space-y-1 z-10">
-                            <span class="bg-white text-[9px] fp-text-pink font-bold px-1.5 py-0.5 rounded">LIMITED TIME</span>
-                            <h4 class="font-extrabold text-sm text-gray-900 leading-tight">Discount Up To<br><span class="text-lg fp-text-pink">$50 Off</span></h4>
-                            <p class="text-[10px] text-gray-500">On Electronics</p>
-                        </div>
-                        <span class="text-5xl opacity-80 group-hover:scale-110 transition duration-300">💻</span>
+            {% if discount_only == 'true' %}
+                <section class="space-y-4">
+                    <div>
+                        <h3 class="text-lg font-bold text-gray-900 flex items-center gap-2">
+                            <span>⚡</span> ទំនិញកំពុងបញ្ចុះតម្លៃពិសេស (Items on Sale)
+                        </h3>
+                        <p class="text-xs text-gray-400">ទំនិញដែលមានការបញ្ចុះតម្លៃពិសេសប្រចាំថ្ងៃជូនអតិថិជន</p>
                     </div>
 
-                    <div class="bg-amber-50 rounded-xl p-4 flex justify-between items-center border border-amber-100 shadow-2xs relative overflow-hidden group hover:shadow-xs transition">
-                        <div class="space-y-1 z-10">
-                            <span class="bg-amber-500 text-white text-[9px] font-bold px-1.5 py-0.5 rounded">PROMO CODE</span>
-                            <h4 class="font-extrabold text-sm text-gray-900 leading-tight">Use Code:<br><span class="text-lg text-amber-600">PANDA20</span></h4>
-                            <p class="text-[10px] text-gray-500">Get 20% cashback</p>
-                        </div>
-                        <span class="text-5xl opacity-80 group-hover:scale-110 transition duration-300">🎟️</span>
-                    </div>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-6">
+                        {% for product in products %}
+                            {% if product.discount > 0 %}
+                                <div class="bg-white rounded-2xl border border-gray-100 shadow-2xs overflow-hidden hover:shadow-md transition duration-200 flex flex-col group relative p-4">
+                                    <span class="absolute top-4 left-4 z-10 bg-red-500 text-white text-[10px] font-extrabold px-2.5 py-1 rounded-full">
+                                        ចុះថ្លៃ {{ product.discount }}%
+                                    </span>
+                                    
+                                    <div class="w-full h-[160px] rounded-xl bg-white border border-gray-50 overflow-hidden flex items-center justify-center p-3 mb-3">
+                                        {% if product.image %}
+                                            <img src="{{ product.image.url }}" alt="{{ product.name }}" class="max-w-full max-h-full object-contain transition duration-300 group-hover:scale-105">
+                                        {% else %}
+                                            <img src="https://images.unsplash.com/photo-1542838132-92c53300491e?w=500" alt="Default Image" class="max-w-full max-h-full object-contain transition duration-300 group-hover:scale-105">
+                                        {% endif %}
+                                    </div>
 
-                    <div class="bg-blue-50 rounded-xl p-4 flex justify-between items-center border border-blue-100 shadow-2xs relative overflow-hidden group hover:shadow-xs transition">
-                        <div class="space-y-1 z-10">
-                            <span class="bg-blue-600 text-white text-[9px] font-bold px-1.5 py-0.5 rounded">FREE SHIPPING</span>
-                            <h4 class="font-extrabold text-sm text-gray-900 leading-tight">Free Delivery<br><span class="text-lg text-blue-600">No Minimum</span></h4>
-                            <p class="text-[10px] text-gray-500">Phnom Penh area</p>
-                        </div>
-                        <span class="text-5xl opacity-80 group-hover:scale-110 transition duration-300">🛵</span>
-                    </div>
-
-                </div>
-            </section>
-
-            <section class="space-y-4">
-                <div>
-                    <h3 class="text-lg font-bold text-gray-900">ហាងណែនាំសម្រាប់អ្នក (Recommended Shops)</h3>
-                    <p class="text-xs text-gray-400">ស្វែងរក និងទិញទំនិញផ្ទាល់ពីហាងដែលល្បីល្បាញបំផុត</p>
-                </div>
-
-                <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-6">
-                    {% for shop in shops %}
-                        <a href="{% url 'shop_detail' shop.id %}" class="shop-card bg-white rounded-2xl border border-gray-100 shadow-2xs overflow-hidden hover:shadow-md transition duration-200 flex flex-col group relative block p-4">
-                            
-                            <button onclick="event.preventDefault();" class="absolute top-6 right-6 z-10 text-sm bg-white/80 p-1.5 rounded-full shadow-xs text-gray-400 hover:text-red-500 cursor-pointer backdrop-blur-xs">❤️</button>
-                            
-                            <div class="w-full h-[160px] rounded-xl bg-white border border-gray-50 overflow-hidden flex items-center justify-center p-3 mb-3">
-                                {% if shop.image %}
-                                    <img src="{{ shop.image.url }}" alt="{{ shop.name }}" class="max-w-full max-h-full object-contain transition duration-300 group-hover:scale-105">
-                                {% else %}
-                                    <img src="https://images.unsplash.com/photo-1542838132-92c53300491e?w=500" alt="Default Image" class="max-w-full max-h-full object-contain transition duration-300 group-hover:scale-105">
-                                {% endif %}
+                                    <div class="flex flex-col flex-1">
+                                        <h3 class="font-bold text-gray-800 text-sm truncate w-full group-hover:fp-text-pink transition">
+                                            {{ product.name }}
+                                        </h3>
+                                        <p class="text-xs text-gray-400 mt-1">
+                                            ហាង៖ {{ product.shop.name }}
+                                        </p>
+                                        <div class="mt-auto pt-3 flex items-center justify-between">
+                                            <div class="flex flex-col">
+                                                <span class="text-sm font-extrabold text-[#d70f64]">${{ product.final_price }}</span>
+                                                <span class="text-[10px] text-gray-400 line-through font-semibold">${{ product.price }}</span>
+                                            </div>
+                                            <a href="{% url 'shop_detail' product.shop.id %}" class="text-[10px] font-bold bg-pink-50 text-[#d70f64] px-2.5 py-1 rounded-full hover:bg-[#d70f64] hover:text-white transition">
+                                                មើលហាង
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endif %}
+                        {% empty %}
+                            <div class="col-span-full py-12 text-center text-sm text-gray-500 bg-white rounded-2xl border border-dashed border-gray-200">
+                                មិនទាន់មានទំនិញបញ្ចុះតម្លៃនៅក្នុងប្រព័ន្ធឡើយទេ!
                             </div>
-                            
-                            <div class="flex flex-col flex-1">
-                                <h3 class="font-bold text-gray-800 text-sm truncate w-full group-hover:fp-text-pink transition">
-                                    {{ shop.name }}
-                                </h3>
-                                <p class="text-xs text-gray-400 mt-1">
-                                    {{ shop.category.name }}
-                                </p>
-                                <div class="mt-auto pt-3 flex items-center justify-between">
-                                    <span class="text-[9px] font-bold bg-emerald-50 text-emerald-700 px-2 py-0.5 rounded-full">⭐ 4.8 (New)</span>
+                        {% endfor %}
+                    </div>
+                </section>
+            {% else %}
+                <section class="bg-rose-50 rounded-2xl p-5 border border-rose-100 flex items-center justify-between gap-4">
+                    <div class="space-y-1.5">
+                        <div class="flex items-center gap-2">
+                            <span class="w-6 h-6 bg-white rounded-full flex items-center justify-center shadow-xs text-xs">❤️</span>
+                            <h3 class="font-bold text-sm text-gray-900">រក្សាទុកហាងដែលអ្នកពេញចិត្ត</h3>
+                        </div>
+                        <p class="text-xs text-gray-600">ចុចលើរូបបេះដូង ដើម្បីកុំឱ្យពិបាកស្វែងរកហាងដែលអ្នកចូលចិត្តទៅថ្ងៃក្រោយ។</p>
+                    </div>
+                </section>
+
+                <section class="space-y-3 relative">
+                    <div class="flex items-center justify-between">
+                        <h3 class="text-lg font-bold text-gray-900">ម៉ាកទំនិញពេញនិយម (Popular Brands)</h3>
+                        <button class="w-7 h-7 bg-white border border-gray-200 rounded-full flex items-center justify-center text-xs shadow-xs font-bold hover:bg-gray-50 cursor-pointer">&rarr;</button>
+                    </div>
+                    
+                    <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
+                        <div class="bg-white p-3 border border-gray-100 rounded-xl flex items-center gap-3 shadow-2xs hover:shadow-xs transition cursor-pointer">
+                            <div class="w-11 h-11 bg-black text-white rounded-xl flex items-center justify-center font-bold text-sm shrink-0 shadow-2xs">Apple</div>
+                            <div class="min-w-0">
+                                <h4 class="font-bold text-xs text-gray-800 truncate">Apple Store</h4>
+                                <p class="text-[10px] text-emerald-600 mt-0.5">Official Warranty</p>
+                            </div>
+                        </div>
+                        <div class="bg-white p-3 border border-gray-100 rounded-xl flex items-center gap-3 shadow-2xs hover:shadow-xs transition cursor-pointer">
+                            <div class="w-11 h-11 bg-blue-600 text-white rounded-xl flex items-center justify-center font-bold text-sm shrink-0 shadow-2xs">SAMSUNG</div>
+                            <div class="min-w-0">
+                                <h4 class="font-bold text-xs text-gray-800 truncate">Samsung Shop</h4>
+                                <p class="text-[10px] text-gray-400 mt-0.5">Top Rated</p>
+                            </div>
+                        </div>
+                        <div class="bg-white p-3 border border-gray-100 rounded-xl flex items-center gap-3 shadow-2xs hover:shadow-xs transition cursor-pointer">
+                            <div class="w-11 h-11 bg-red-600 text-white rounded-xl flex items-center justify-center font-bold text-lg shrink-0 shadow-2xs">N</div>
+                            <div class="min-w-0">
+                                <h4 class="font-bold text-xs text-gray-800 truncate">Nike Cambodia</h4>
+                                <p class="text-[10px] text-gray-400 mt-0.5">New Collection</p>
+                            </div>
+                        </div>
+                        <div class="bg-white p-3 border border-gray-100 rounded-xl flex items-center gap-3 shadow-2xs hover:shadow-xs transition cursor-pointer">
+                            <div class="w-11 h-11 bg-amber-500 text-white rounded-xl flex items-center justify-center font-bold text-lg shrink-0 shadow-2xs">Z</div>
+                            <div class="min-w-0">
+                                <h4 class="font-bold text-xs text-gray-800 truncate">Zara Fashion</h4>
+                                <p class="text-[10px] text-rose-500 mt-0.5">Sale 30% Off</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="space-y-3">
+                    <h3 class="text-lg font-bold text-gray-900">មហាសន្សំប្រចាំថ្ងៃ (Your daily deals)</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        
+                        <a href="?discount_only=true" class="fp-bg-light rounded-xl p-4 flex justify-between items-center border border-pink-100 shadow-2xs relative overflow-hidden group hover:shadow-xs transition block">
+                            <div class="space-y-1 z-10">
+                                <span class="bg-white text-[9px] fp-text-pink font-bold px-1.5 py-0.5 rounded">LIMITED TIME</span>
+                                <h4 class="font-extrabold text-sm text-gray-900 leading-tight">Discount Up To<br><span class="text-lg fp-text-pink">% Off</span></h4>
+                                <p class="text-[10px] text-gray-500">On Hot Electronics</p>
+                            </div>
+                            <span class="text-5xl opacity-80 group-hover:scale-110 transition duration-300">💻</span>
+                        </a>
+
+                        <div class="bg-amber-50 rounded-xl p-4 flex justify-between items-center border border-amber-100 shadow-2xs relative overflow-hidden group hover:shadow-xs transition">
+                            <div class="space-y-1 z-10">
+                                <span class="bg-amber-500 text-white text-[9px] font-bold px-1.5 py-0.5 rounded">PROMO CODE</span>
+                                <h4 class="font-extrabold text-sm text-gray-900 leading-tight">Use Code:<br><span class="text-lg text-amber-600">PANDA20</span></h4>
+                                <p class="text-[10px] text-gray-500">Get 20% cashback</p>
+                            </div>
+                            <span class="text-5xl opacity-80 group-hover:scale-110 transition duration-300">🎟️</span>
+                        </div>
+
+                        <div class="bg-blue-50 rounded-xl p-4 flex justify-between items-center border border-blue-100 shadow-2xs relative overflow-hidden group hover:shadow-xs transition">
+                            <div class="space-y-1 z-10">
+                                <span class="bg-blue-600 text-white text-[9px] font-bold px-1.5 py-0.5 rounded">FREE SHIPPING</span>
+                                <h4 class="font-extrabold text-sm text-gray-900 leading-tight">Free Delivery<br><span class="text-lg text-blue-600">No Minimum</span></h4>
+                                <p class="text-[10px] text-gray-500">Phnom Penh area</p>
+                            </div>
+                            <span class="text-5xl opacity-80 group-hover:scale-110 transition duration-300">🛵</span>
+                        </div>
+
+                    </div>
+                </section>
+
+                <section class="space-y-4">
+                    <div>
+                        <h3 class="text-lg font-bold text-gray-900">ហាងណែនាំសម្រាប់អ្នក (Recommended Shops)</h3>
+                        <p class="text-xs text-gray-400">ស្វែងរក និងទិញទំនិញផ្ទាល់ពីហាងដែលល្បីល្បាញបំផុត</p>
+                    </div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-6">
+                        {% for shop in shops %}
+                            <a href="{% url 'shop_detail' shop.id %}" class="shop-card bg-white rounded-2xl border border-gray-100 shadow-2xs overflow-hidden hover:shadow-md transition duration-200 flex flex-col group relative block p-4">
+                                
+                                <button onclick="event.preventDefault();" class="absolute top-6 right-6 z-10 text-sm bg-white/80 p-1.5 rounded-full shadow-xs text-gray-400 hover:text-red-500 cursor-pointer backdrop-blur-xs">❤️</button>
+                                
+                                <div class="w-full h-[160px] rounded-xl bg-white border border-gray-50 overflow-hidden flex items-center justify-center p-3 mb-3">
+                                    {% if shop.image %}
+                                        <img src="{{ shop.image.url }}" alt="{{ shop.name }}" class="max-w-full max-h-full object-contain transition duration-300 group-hover:scale-105">
+                                    {% else %}
+                                        <img src="https://images.unsplash.com/photo-1542838132-92c53300491e?w=500" alt="Default Image" class="max-w-full max-h-full object-contain transition duration-300 group-hover:scale-105">
+                                    {% endif %}
+                                </div>
+                                
+                                <div class="flex flex-col flex-1">
+                                    <h3 class="font-bold text-gray-800 text-sm truncate w-full group-hover:fp-text-pink transition">
+                                        {{ shop.name }}
+                                    </h3>
+                                    <p class="text-xs text-gray-400 mt-1">
+                                        {{ shop.category.name }}
+                                    </p>
+                                    <div class="mt-auto pt-3 flex items-center justify-between">
+                                        <span class="text-[9px] font-bold bg-emerald-50 text-emerald-700 px-2 py-0.5 rounded-full">⭐ 4.8 (New)</span>
+                                    </div>
+                                </div>
+                            </a>
+                        {% empty %}
+                            <div class="col-span-full py-12 text-center text-sm text-gray-500 bg-white rounded-2xl border border-dashed border-gray-200">
+                                មិនទាន់មានទិន្នន័យហាងនៅក្នុងប្រព័ន្ធឡើយទេ!
+                            </div>
+                        {% endfor %}
+                    </div>
+                </section>
+
+                <section class="space-y-4 pt-6 border-t border-gray-100">
+                    <div>
+                        <h3 class="text-lg font-bold text-gray-900 flex items-center gap-2">
+                            <span>🛍️</span> ផលិតផលណែនាំ (Recommended Products)
+                        </h3>
+                        <p class="text-xs text-gray-400">ផលិតផលពេញនិយមសម្រាប់អ្នក</p>
+                    </div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-6">
+                        {% for product in products %}
+                            <div class="bg-white rounded-2xl border border-gray-100 shadow-2xs overflow-hidden hover:shadow-md transition duration-200 flex flex-col group relative p-4">
+                                {% if product.discount > 0 %}
+                                    <span class="absolute top-4 left-4 z-10 bg-red-500 text-white text-[10px] font-extrabold px-2.5 py-1 rounded-full">
+                                        ចុះថ្លៃ {{ product.discount }}%
+                                    </span>
+                                {% endif %}
+                                
+                                <div class="w-full h-[160px] rounded-xl bg-white border border-gray-50 overflow-hidden flex items-center justify-center p-3 mb-3">
+                                    {% if product.image %}
+                                        <img src="{{ product.image.url }}" alt="{{ product.name }}" class="max-w-full max-h-full object-contain transition duration-300 group-hover:scale-105">
+                                    {% else %}
+                                        <img src="/static/images/default.png" alt="Default Image" class="max-w-full max-h-full object-contain transition duration-300 group-hover:scale-105">
+                                    {% endif %}
+                                </div>
+
+                                <div class="flex flex-col flex-1">
+                                    <h3 class="font-bold text-gray-800 text-sm truncate w-full group-hover:fp-text-pink transition">
+                                        {{ product.name }}
+                                    </h3>
+                                    <p class="text-xs text-gray-400 mt-1">
+                                        ហាង៖ {{ product.shop.name }}
+                                    </p>
+                                    <div class="mt-auto pt-3 flex items-center justify-between">
+                                        <div class="flex flex-col">
+                                            {% if product.discount > 0 %}
+                                                <span class="text-sm font-extrabold text-[#d70f64]">${{ product.final_price }}</span>
+                                                <span class="text-[10px] text-gray-400 line-through font-semibold">${{ product.price }}</span>
+                                            {% else %}
+                                                <span class="text-sm font-extrabold text-gray-900">${{ product.price }}</span>
+                                            {% endif %}
+                                        </div>
+                                        <a href="{% url 'shop_detail' product.shop.id %}" class="text-[10px] font-bold bg-pink-50 text-[#d70f64] px-2.5 py-1 rounded-full hover:bg-[#d70f64] hover:text-white transition">
+                                            ទិញឥឡូវ
+                                        </a>
+                                    </div>
                                 </div>
                             </div>
-                        </a>
-                    {% empty %}
-                        <div class="col-span-full py-12 text-center text-sm text-gray-500 bg-white rounded-2xl border border-dashed border-gray-200">
-                            មិនទាន់មានទិន្នន័យហាងនៅក្នុងប្រព័ន្ធឡើយទេ!
-                        </div>
-                    {% endfor %}
-                </div>
-            </section>
+                        {% empty %}
+                            <div class="col-span-full py-12 text-center text-sm text-gray-500 bg-white rounded-2xl border border-dashed border-gray-200">
+                                មិនទាន់មានទំនិញនៅក្នុងប្រព័ន្ធឡើយទេ!
+                            </div>
+                        {% endfor %}
+                    </div>
+                </section>
+            {% endif %}
         </main>
     </div>
 
@@ -272,9 +376,8 @@
             <div class="grid grid-cols-1 md:grid-cols-4 gap-8 text-xs">
                 
                 <div class="space-y-3">
-                    <div class="flex items-center gap-2">
-                        <div class="w-8 h-8 fp-pink text-white flex items-center justify-center font-bold text-lg rounded-lg">🐼</div>
-                        <span class="text-lg font-extrabold fp-text-pink tracking-tight">PandaMart</span>
+                    <div class="w-full text-left flex items-center gap-2 relative z-10">
+                        <span class="text-2xl">🏪</span> <span class="text-xl font-bold text-[#d70f64] tracking-tight"> Shops & Products</span>
                     </div>
                     <p class="text-gray-500 leading-relaxed font-medium">
                         សេវាកម្មដឹកជញ្ជូនទំនិញ និងអាហារអនឡាញឈានមុខគេនៅក្នុងប្រទេសកម្ពុជា រហ័សទាន់ចិត្ត និងទំនុកចិត្តខ្ពស់។
@@ -287,7 +390,7 @@
                         <li><a href="#" class="hover:fp-text-pink transition">អំពីយើង (About Us)</a></li>
                         <li><a href="#" class="hover:fp-text-pink transition">មជ្ឈមណ្ឌលជំនួយ (Help Center)</a></li>
                         <li><a href="#" class="hover:fp-text-pink transition">ឱកាសការងារ (Careers)</a></li>
-                        <li><a href="#" class="hover:fp-text-pink transition">ប្រូម៉ូសិនប្រចាំថ្ងៃ (Deals)</a></li>
+                        <li><a href="?discount_only=true" class="hover:fp-text-pink transition">ប្រូម៉ូសិនប្រចាំថ្ងៃ (Deals)</a></li>
                     </ul>
                 </div>
 

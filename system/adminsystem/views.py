@@ -28,15 +28,25 @@ def active_orders_count(request):
 
 
 # ==========================================================
-# 1. Logic បង្ហាញទំព័រដើមទិញទំនិញ (Index / Shops & Products)
+# 1. Logic បង្ហាញទំព័រដើមទិញទំនិញ (Index / Shops & Products) [បានកែប្រែបន្ថែមការ Filter Discount]
 # ==========================================================
 def index(request):
-    # ទាញយកទិន្នន័យ "ហាងទាំងអស់ (Shops)" និង "ផលិតផលទាំងអស់ (Products)" ចេញពី Database ទៅបង្ហាញលើទំព័រដើម
+    # ១. ទាញយកទិន្នន័យ "ហាងទាំងអស់" និង "ផលិតផលទាំងអស់" ចេញពី Database 
     shops = Shop.objects.all()
     products = Product.objects.all()
+    
+    # ២. ឆែកមើលថាតើ User បានចុចលើប៊ូតុង 'ប្រូម៉ូសិន (Deals)' ដែលបោះតម្លៃ ?discount_only=true មកឬអត់
+    discount_only = request.GET.get('discount_only')
+    
+    if discount_only == 'true':
+        # ចម្រាញ់យកតែផលិតផលណាដែលមានភាគរយបញ្ចុះតម្លៃ (discount) ធំជាង 0%
+        # (ចំណាំ៖ ប្រសិនបើក្នុង models.py របស់ប្អូនប្រើឈ្មោះ field ផ្សេង ដូចជា discount_percentage សូមប្ដូរឈ្មោះត្រង់នេះចេញ)
+        products = products.filter(discount__gt=0)
+    
     return render(request, 'index.html', {
         'shops': shops,
-        'products': products
+        'products': products,
+        'discount_only': discount_only  # បោះទៅ HTML វិញដើម្បីងាយស្រួលដឹងថាកំពុងបង្ហាញតែទំនិញ Discount
     })
 
 
@@ -44,7 +54,7 @@ def index(request):
 # 2. View សម្រាប់បង្ហាញព័ត៌មានលម្អិត និងផលិតផលក្នុងហាងនីមួយៗ (Shop Detail)
 # ==========================================================
 def shop_detail(request, shop_id):
-    # 1. ទាញយកទិន្នន័យហាងណាដែលមាន id ស្មើនឹង shop_id បើរកមិនឃើញឱ្យចេញទំព័រ Error 404
+    # 1. ទទាញយកទិន្នន័យហាងណាដែលមាន id ស្មើនឹង shop_id បើរកមិនឃើញឱ្យចេញទំព័រ Error 404
     shop = get_object_or_404(Shop, id=shop_id)
     
     # 2. ទាញយកផលិតផលទាំងអស់ដែលបានភ្ជាប់ជាមួយហាង (Shop) មួយនេះមកបង្ហាញ
@@ -132,7 +142,7 @@ def user_list_view(request):
 
 
 # ==========================================================
-# 7. Logic សម្រាប់ការបញ្ជាទិញទំនិញ (Place Order)
+# 7. Logic សម្រាប់ការបញ្ជាទិញទំនិញ (Place Order) -> [បានកែប្រែគណនាតាមតម្លៃ Discount]
 # ==========================================================
 @login_required(login_url='login') # បើមិនទាន់ Login ទេ វានឹងរុញទៅទំព័រ Login ស្វ័យប្រវត្ត
 def place_order(request):
@@ -151,7 +161,10 @@ def place_order(request):
 
         # ទាញយកទិន្នន័យផលិតផល
         product = get_object_or_404(Product, id=product_id)
-        total_price = product.price * quantity
+        
+        # 👑 ចំណុចកែប្រែ៖ ប្រើប្រាស់ final_price (តម្លៃបញ្ចុះរួច) ជំនួសឱ្យ price ធម្មតា
+        actual_price = product.final_price
+        total_price = actual_price * quantity
         
         # ១. បង្កើត Order មេ (ដោយរក្សាទុកទាំង phone និង address)
         order = Order.objects.create(
@@ -162,12 +175,12 @@ def place_order(request):
             address=address
         )
         
-        # ២. បង្កើត មុខទំនិញកូន
+        # ២. បង្កើត មុខទំនិញកូន (រក្សាទុកតម្លៃលក់ជាក់ស្តែង actual_price ទៅក្នុង DB)
         OrderItem.objects.create(
             order=order,
             product=product,
             quantity=quantity,
-            price=product.price
+            price=actual_price
         )
         
         # ពេលជោគជ័យ បញ្ជូនទៅកាន់ទំព័រ Check វិក្កយបត្រ (Order Detail)
@@ -198,7 +211,7 @@ def admin_orders_view(request):
         messages.error(request, "អ្នកគ្មានសិទ្ធិចូលមើលទំព័រនេះទេ!")
         return redirect('index')
         
-    # <b>ទាញយក Order ទាំងអស់ដោយតម្រៀបពីថ្មីបំផុតមកមុន</b>
+    # ទាញយក Order ទាំងអស់ដោយតម្រៀបពីថ្មីបំផុតមកមុន
     all_orders = Order.objects.all().order_by('-created_at')
     return render(request, 'admin_orders.html', {
         'orders': all_orders
@@ -214,7 +227,7 @@ def admin_accept_order(request, order_id):
         return redirect('index')
     
     order = get_object_or_404(Order, id=order_id)
-    order.status = 'Accepted' # <b>ផ្លាស់ប្តូរស្ថានភាពទៅជាបានទទួលយក</b>
+    order.status = 'Accepted' # ផ្លាស់ប្តូរស្ថានភាពទៅជាបានទទួលយក
     order.save()
     messages.success(request, f"បានទទួលយកការកម្ម៉ង់ #{order.id} រួចរាល់!")
     return redirect('admin_orders')
@@ -229,7 +242,7 @@ def admin_complete_order(request, order_id):
         return redirect('index')
         
     order = get_object_or_404(Order, id=order_id)
-    order.status = 'Completed' # <b>ផ្លាស់ប្តូរស្ថានភាពទៅជាជោគជ័យ (ពេលភ្ញៀវបង់លុយរួច)</b>
+    order.status = 'Completed' # ផ្លាស់ប្តូរស្ថានភាពទៅជាជោគជ័យ (ពេលភ្ញៀវបង់លុយរួច)
     order.save()
     messages.success(request, f"ការកម្ម៉ង់ #{order.id} ត្រូវបានបញ្ចប់ជាស្ថាពរ!")
     return redirect('admin_orders')
@@ -287,7 +300,7 @@ def admin_cancel_order(request, order_id):
         return redirect('index')
         
     order = get_object_or_404(Order, id=order_id)
-    order.status = 'Cancelled' # <b>ផ្លាស់ប្តូរស្ថានភាពទៅជា Cancelled</b>
+    order.status = 'Cancelled' # ផ្លាស់ប្តូរស្ថានភាពទៅជា Cancelled
     order.save()
     messages.success(request, f"ការកម្ម៉ង់ #{order.id} ត្រូវបានបោះបង់ (Cancelled) ដោយជោគជ័យ!")
     return redirect('admin_orders')
